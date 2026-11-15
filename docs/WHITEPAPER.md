@@ -1,6 +1,7 @@
 # A Bare-Metal O(1) Stack-Bounded Symbolic PDE & 128-Bit Rational Interval SMT Framework for Verifying Enstrophy Coercivity in 3D Incompressible Navier-Stokes Flows
 
 **Author:** Nguyen Nhat Nam ([ORCID: 0009-0006-8216-0594](https://orcid.org/0009-0006-8216-0594))  
+**DOI:** [10.5281/zenodo.24252963](https://doi.org/10.5281/zenodo.24252963) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24252963.svg)](https://doi.org/10.5281/zenodo.24252963)  
 **Affiliation:** Independent Systems & Formal Verification Researcher; FinTech Undergraduate, Nha Trang University, Nha Trang, Khanh Hoa, Vietnam  
 **Framework Architecture:** `garry-ultimate-oss` v1.0.0 (`GARRYULT` Deterministic Kernel)  
 **Date:** November 2026 

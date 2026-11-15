@@ -5,6 +5,7 @@
 [![Memory Bound](https://img.shields.io/badge/Memory%20Model-O(1)%20Stack--Bounded-orange?style=flat-square)](#architectural-manifesto--first-principles-invariants)
 [![Formal Prover](https://img.shields.io/badge/Proof%20Engine-5--Lemma%20AST%20%2B%20128--Bit%20SMT%20UNSAT-purple?style=flat-square)](#end-to-end-verification-walkthrough-3d-navier-stokes-millennium-proof-guide)
 [![ORCID](https://img.shields.io/badge/ORCID-0009--0006--8216--0594-a6ce39?style=flat-square)](https://orcid.org/0009-0006-8216-0594)
+[![DOI](https://zenodo.org/badge/1458757139.svg)](https://doi.org/10.5281/zenodo.24252962)
 [![License](https://img.shields.io/badge/License-MIT%20%2F%20Apache--2.0-informational?style=flat-square)](#license)
 
 **Author:** Nguyen Nhat Nam ([ORCID: 0009-0006-8216-0594](https://orcid.org/0009-0006-8216-0594)) — Independent Systems & Formal Verification Researcher; FinTech Undergraduate, Nha Trang University, Khanh Hoa, Vietnam.
