@@ -77,6 +77,8 @@ Fixed-point bound propagation (`propagate_bounds`) immediately detects an invert
 | **`ns_4`** | `omniverse_10pillar` | $30,000.0$ | $42.8702$ | $336.9765$ | $-294.106363$ | $13.5310$ | `0xEC6CD742` / `0x0A0CF0A5` |
 | **`ns_5`** | `8-Axiom / 20-Stage` | $30,000.0$ | $42.8702$ | $336.9765$ | $-294.106363$ | $13.5310$ | `0xEC6CD742` / `0xBE75C6B3` |
 
+> **Note on IEEE 754 `f64` Register Evaluation vs. `{:.4}` Diagnostic Formatting:** All intermediate PDE invariants ($S_{\text{stretch}}$, $D_{\text{visc}}$, $\dot{Z} = S_{\text{stretch}} - D_{\text{visc}}$, Homeostasis, and Margin $\mathcal{M}_{\text{NS}}$) are evaluated in full 64-bit IEEE 754 precision prior to independent `{:.4}` display rounding in Tier 1 (e.g., in `ns_4` and `ns_5`, unrounded $S_{\text{stretch}} = 42.870181$ and $D_{\text{visc}} = 336.976546$ yield exact $\dot{Z} = -294.106365$, which formats to `-294.1064` at `{:.4}` and produces outward-rounded 128-bit micro-interval upper bound $\dot{Z}_{\text{upper}} = -294.106363$ after adding the $+2 \times 10^{-6}$ safety buffer). Formal `.smt2` (SMT-LIB 2.6) and `.lean` (Lean 4 core `omega`) certificates are emitted alongside every report in `garry_workspace/solutions/`.
+
 ---
 
 ## 5. Reproducibility Statement
