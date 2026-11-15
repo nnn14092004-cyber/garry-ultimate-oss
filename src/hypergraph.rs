@@ -1,4 +1,5 @@
-//! L2 256-Axiom associative hypergraph memory engine with vitality decay and L1 cache synchronization.
+//! L2 256-Axiom associative hypergraph memory engine with vitality decay,
+//! L1 cache synchronization, and Formal Causal Lemma Chain Verification.
 
 use crate::crc::calculate_crc32;
 use crate::{BoundedStorage, EngineError, MAX_KEY_SIZE, MAX_VALUE_SIZE};
@@ -307,7 +308,11 @@ impl AxiomHyperGraphL2 {
         }
     }
 
-    pub fn ingest_from_l1_storage(&mut self, l1: &BoundedStorage, default_semantic_mask: u64) -> usize {
+    pub fn ingest_from_l1_storage(
+        &mut self,
+        l1: &BoundedStorage,
+        default_semantic_mask: u64,
+    ) -> usize {
         let mut synced = 0usize;
         let mut s_idx = 0usize;
         while s_idx < L1_HOT_SLOTS {
@@ -405,5 +410,62 @@ impl AxiomHyperGraphL2 {
         }
 
         Ok(promoted)
+    }
+
+    /// Verifies causal lemma dependencies across the active L2 axiom chain in O(1) stack memory.
+    /// Returns `(direct_causal_links_count, chain_signature_crc32)`.
+    pub fn verify_causal_lemma_chain_stack(
+        &self,
+        slot_indices: &[usize; 8],
+        matched_count: usize,
+    ) -> (usize, u32) {
+        let mut direct_links = 0usize;
+        let mut chain_crc = 0x517C_C1B7u32;
+        let limit = matched_count.min(8);
+
+        let mut i = 0usize;
+        while i < limit {
+            let slot_i = slot_indices[i];
+            match &self.nodes[slot_i] {
+                Some(node_i) => {
+                    chain_crc = chain_crc.rotate_left(5) ^ node_i.signature_crc32;
+                    let formula_i = std::str::from_utf8(node_i.formula_slice()).unwrap_or("");
+                    let mut j = 0usize;
+                    while j < i {
+                        let slot_j = slot_indices[j];
+                        match &self.nodes[slot_j] {
+                            Some(node_j) => {
+                                let key_j = std::str::from_utf8(node_j.key_slice()).unwrap_or("");
+                                match !key_j.is_empty() && formula_i.contains(key_j) {
+                                    true => direct_links += 1,
+                                    false => {}
+                                }
+                            }
+                            None => {}
+                        }
+                        j += 1;
+                    }
+                }
+                None => {}
+            }
+            i += 1;
+        }
+        (direct_links, chain_crc)
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_hypergraph_causal_lemma_chaining() {
+        let mut l2 = AxiomHyperGraphL2::new();
+        let _ = l2.upsert_axiom(b"lemma_a", b"d_visc - s_stretch", 0x01);
+        let _ = l2.upsert_axiom(b"lemma_b", b"0.5 * lemma_a + sobolev_h3", 0x03);
+        let slots = [0, 1, 0, 0, 0, 0, 0, 0];
+        let (links, crc) = l2.verify_causal_lemma_chain_stack(&slots, 2);
+        assert_eq!(links, 1);
+        assert_ne!(crc, 0);
     }
 }

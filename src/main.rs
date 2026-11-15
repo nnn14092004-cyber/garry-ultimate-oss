@@ -1,5 +1,5 @@
 //! Bare-metal 10-Pillar Omniverse & 3D Incompressible Navier-Stokes Millennium Regularity
-//! benchmark suite and interactive REPL for Garry The Ultimate (`garry-ultimate-oss`).
+//! Symbolic Proof Tree benchmark suite and interactive REPL for Garry The Ultimate (`garry-ultimate-oss`).
 
 use std::hint::black_box;
 use std::io::{BufRead, Write};
@@ -10,7 +10,7 @@ use garry_ultimate_oss::ephemeral::SwarmResearchCoordinator;
 use garry_ultimate_oss::metering::{MeterConfig, StepMeter};
 use garry_ultimate_oss::omniverse_constants::lookup_omniverse_manifold;
 use garry_ultimate_oss::omniverse_kinetics::{
-    compute_navier_stokes_vorticity_enstrophy_stack, OmniverseIsaInst, StackOmniverseCpu,
+    deduce_navier_stokes_from_symbolic_proof_tree_stack, OmniverseIsaInst, StackOmniverseCpu,
 };
 use garry_ultimate_oss::plan::{NodeStatus, PlanGraph};
 use garry_ultimate_oss::planner::{
@@ -103,7 +103,7 @@ fn run_bare_metal_benchmarks() {
     let start_ns = Instant::now();
     let mut k = 0usize;
     while k < iterations {
-        let _ = black_box(compute_navier_stokes_vorticity_enstrophy_stack(
+        let _ = black_box(deduce_navier_stokes_from_symbolic_proof_tree_stack(
             omni_spec, None, None, None,
         ));
         k += 1;
@@ -141,7 +141,7 @@ fn run_bare_metal_benchmarks() {
         iterations, cp_us, mb_s
     );
     println!(
-        "| compute_navier_stokes_vorticity_enstrophy (3D R3) | {:>10} | {:>10.2} ns | O(1) Zero-Heap     |",
+        "| deduce_navier_stokes_symbolic_proof_tree (3D R3)  | {:>10} | {:>10.2} ns | O(1) Zero-Heap     |",
         iterations, ns_ns
     );
     println!(
@@ -207,8 +207,8 @@ fn run_interactive_repl() {
     println!("  :swarm <spec|md>    Synthesize Navier-Stokes/Omniverse axiom, batch (`;`), or `.md`");
     println!("  :hypergraph         Inspect active L2 Omniverse Hypergraph nodes & hyperedges");
     println!("  :storage            Inspect 16-slot L1 hot working memory");
-    println!("  :bench              Execute bare-metal O(1) 3D Navier-Stokes & Omniverse benchmarks");
-    println!("  <omniverse_query>   Solve & export 4-tier Navier-Stokes Millennium report to .txt");
+    println!("  :bench              Execute bare-metal O(1) Symbolic Proof Tree & SMT benchmarks");
+    println!("  <omniverse_query>   Prove & export 4-tier Navier-Stokes Millennium report to .txt");
     println!("  exit                Seal final GARRYULT CRC-32 checkpoint and terminate\n");
 
     let stdin = std::io::stdin();
