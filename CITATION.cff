@@ -1,0 +1,18 @@
+cff-version: 1.2.0
+message: "If you use Garry The Ultimate OSS or its 5-Lemma Symbolic PDE & 128-Bit Interval SMT Prover in your research, please cite it using the metadata below."
+title: "Garry The Ultimate OSS: Bare-Metal O(1) 10-Pillar Omniverse & 3D Incompressible Navier-Stokes Symbolic PDE / 128-Bit Interval SMT Prover"
+version: 1.0.0
+date-released: 2026-11-15
+license: MIT
+authors:
+  - family-names: "Nguyen"
+    given-names: "Nhat Nam"
+    affiliation: "Nha Trang University, Vietnam"
+keywords:
+  - "navier-stokes"
+  - "automated-theorem-proving"
+  - "smt-solver"
+  - "interval-arithmetic"
+  - "formal-verification"
+  - "rust"
+  - "no-std"
