@@ -1,7 +1,8 @@
 # A Bare-Metal O(1) Stack-Bounded Symbolic PDE & 128-Bit Rational Interval SMT Framework for Verifying Enstrophy Coercivity in 3D Incompressible Navier-Stokes Flows
 
 **Author:** Nguyen Nhat Nam ([ORCID: 0009-0006-8216-0594](https://orcid.org/0009-0006-8216-0594))  
-**CERN Zenodo DOI:** [10.5281/zenodo.24252963](https://doi.org/10.5281/zenodo.24252963) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24252963.svg)](https://doi.org/10.5281/zenodo.24252963)  
+**CERN Zenodo Preprint DOI:** [10.5281/zenodo.24267996](https://doi.org/10.5281/zenodo.24267996) [![Preprint DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24267996.svg)](https://doi.org/10.5281/zenodo.24267996)  
+**CERN Zenodo Software DOI:** [10.5281/zenodo.24252963](https://doi.org/10.5281/zenodo.24252963) [![Software DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24252963.svg)](https://doi.org/10.5281/zenodo.24252963)  
 **UNESCO SWHID:** [`swh:1:dir:bd882108f75f5fedc5900a8a762a8552b952f6cc`](https://archive.softwareheritage.org/swh:1:dir:bd882108f75f5fedc5900a8a762a8552b952f6cc;origin=https://github.com/nnn14092004-cyber/garry-ultimate-oss;visit=swh:1:snp:12c1fc282417dbafad4112e4267ac4dba4b2f78c;anchor=swh:1:rev:5e3a06c9ecdb52747fbd4936bab23333d8367b11) [![SWH](https://archive.softwareheritage.org/badge/swh:1:dir:bd882108f75f5fedc5900a8a762a8552b952f6cc/)](https://archive.softwareheritage.org/swh:1:dir:bd882108f75f5fedc5900a8a762a8552b952f6cc;origin=https://github.com/nnn14092004-cyber/garry-ultimate-oss;visit=swh:1:snp:12c1fc282417dbafad4112e4267ac4dba4b2f78c;anchor=swh:1:rev:5e3a06c9ecdb52747fbd4936bab23333d8367b11)  
 **Affiliation:** Independent Systems & Formal Verification Researcher; FinTech Undergraduate, Nha Trang University, Nha Trang, Khanh Hoa, Vietnam  
 **Framework Architecture:** `garry-ultimate-oss` v1.0.0 (`GARRYULT` Deterministic Kernel)  
@@ -106,3 +107,4 @@ Every verification run automatically emits three synchronized artifacts into `ga
 5. **De Moura, L., & Bjørner, N.** (2008). Z3: An efficient SMT solver. In *International Conference on Tools and Algorithms for the Construction and Analysis of Systems (TACAS)* (pp. 337–340). Springer. https://doi.org/10.1007/978-3-540-78800-3_24
 6. **De Moura, L., & Ullrich, S.** (2021). The Lean 4 theorem prover and programming language. In *International Conference on Automated Deduction (CADE)* (pp. 625–635). Springer. https://doi.org/10.1007/978-3-030-79876-5_37
 7. **Nguyễn, N. N.** (2026). *GARRYULT v1.0.0: Bare-Metal O(1) 5-Lemma Symbolic PDE and 128-Bit Interval SMT Navier-Stokes Prover* [Computer software]. CERN Zenodo. https://doi.org/10.5281/zenodo.24252963 (UNESCO SWHID: `swh:1:dir:bd882108f75f5fedc5900a8a762a8552b952f6cc`)
+8. **Nguyễn, N. N.** (2026). *A Bare-Metal O(1) Stack-Bounded Symbolic PDE & 128-Bit Rational Interval SMT Framework for Verifying Enstrophy Coercivity in 3D Incompressible Navier-Stokes Flows* [Preprint]. CERN Zenodo. https://doi.org/10.5281/zenodo.24267996

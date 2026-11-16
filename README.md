@@ -5,7 +5,8 @@
 [![Memory Bound](https://img.shields.io/badge/Memory%20Model-O(1)%20Stack--Bounded-orange?style=flat-square)](#architectural-manifesto--first-principles-invariants)
 [![Formal Prover](https://img.shields.io/badge/Proof%20Engine-5--Lemma%20AST%20%2B%20128--Bit%20SMT%20UNSAT-purple?style=flat-square)](#end-to-end-verification-walkthrough-3d-navier-stokes-millennium-proof-guide)
 [![ORCID](https://img.shields.io/badge/ORCID-0009--0006--8216--0594-a6ce39?style=flat-square)](https://orcid.org/0009-0006-8216-0594)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24252963.svg)](https://doi.org/10.5281/zenodo.24252963)
+[![Software DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24252963.svg)](https://doi.org/10.5281/zenodo.24252963)
+[![Preprint DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24267996.svg)](https://doi.org/10.5281/zenodo.24267996)
 [![SWH](https://archive.softwareheritage.org/badge/swh:1:dir:bd882108f75f5fedc5900a8a762a8552b952f6cc/)](https://archive.softwareheritage.org/swh:1:dir:bd882108f75f5fedc5900a8a762a8552b952f6cc;origin=https://github.com/nnn14092004-cyber/garry-ultimate-oss;visit=swh:1:snp:12c1fc282417dbafad4112e4267ac4dba4b2f78c;anchor=swh:1:rev:5e3a06c9ecdb52747fbd4936bab23333d8367b11)
 [![License](https://img.shields.io/badge/License-MIT%20%2F%20Apache--2.0-informational?style=flat-square)](#license)
 
@@ -74,11 +75,11 @@ Only the standard Rust toolchain (`rustc >= 1.75`, `cargo`) and `git` are requir
 
 #### 1. Linux (Ubuntu / Debian / Arch / Fedora)
 <pre><code># Install Rust toolchain (if not already installed)
-curl --proto '=https' --tlsv1.2 -sSf [https://sh.rustup.rs](https://sh.rustup.rs) | sh -s -- -y
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 source "$HOME/.cargo/env"
 
 # Clone repository and synchronize latest formal proof commits
-git clone [https://github.com/nnn14092004-cyber/garry-ultimate-oss.git](https://github.com/nnn14092004-cyber/garry-ultimate-oss.git)
+git clone https://github.com/nnn14092004-cyber/garry-ultimate-oss.git
 cd garry-ultimate-oss
 git pull origin main
 
@@ -90,11 +91,11 @@ cargo run --release</code></pre>
 
 #### 2. macOS (Apple Silicon M1/M2/M3/M4 & Intel)
 <pre><code># Install Rust toolchain via rustup
-curl --proto '=https' --tlsv1.2 -sSf [https://sh.rustup.rs](https://sh.rustup.rs) | sh -s -- -y
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 source "$HOME/.cargo/env"
 
 # Clone repository and pull latest main branch
-git clone [https://github.com/nnn14092004-cyber/garry-ultimate-oss.git](https://github.com/nnn14092004-cyber/garry-ultimate-oss.git)
+git clone https://github.com/nnn14092004-cyber/garry-ultimate-oss.git
 cd garry-ultimate-oss
 git pull origin main
 
@@ -106,7 +107,7 @@ cargo run --release</code></pre>
 
 #### 3. Windows (PowerShell / Windows Terminal)
 <pre><code># Clone repository and synchronize latest updates
-git clone [https://github.com/nnn14092004-cyber/garry-ultimate-oss.git](https://github.com/nnn14092004-cyber/garry-ultimate-oss.git)
+git clone https://github.com/nnn14092004-cyber/garry-ultimate-oss.git
 cd garry-ultimate-oss
 git pull origin main
 
@@ -819,7 +820,9 @@ Every commit and pull request is verified via GitHub Actions (`.github/workflows
 
 Formal derivations and architectural proofs are documented in [`docs/WHITEPAPER.md`](docs/WHITEPAPER.md) and [`CITATION.cff`](CITATION.cff):
 
-<pre><code>Nguyen, N. N. (2026). Garry The Ultimate OSS: Bare-Metal O(1) 10-Pillar Omniverse & 3D Incompressible Navier-Stokes Symbolic PDE / 128-Bit Interval SMT Prover (Version 1.0.0) [Computer software]. Nha Trang University, Vietnam. ORCID: 0009-0006-8216-0594. DOI: 10.5281/zenodo.24252963. SWHID: swh:1:dir:bd882108f75f5fedc5900a8a762a8552b952f6cc;anchor=swh:1:rev:5e3a06c9ecdb52747fbd4936bab23333d8367b11</code></pre>
+<pre><code>Nguyen, N. N. (2026). Garry The Ultimate OSS: Bare-Metal O(1) 10-Pillar Omniverse & 3D Incompressible Navier-Stokes Symbolic PDE / 128-Bit Interval SMT Prover (Version 1.0.0) [Computer software]. CERN Zenodo. https://doi.org/10.5281/zenodo.24252963 (UNESCO SWHID: swh:1:dir:bd882108f75f5fedc5900a8a762a8552b952f6cc;anchor=swh:1:rev:5e3a06c9ecdb52747fbd4936bab23333d8367b11)
+
+Nguyen, N. N. (2026). A Bare-Metal O(1) Stack-Bounded Symbolic PDE & 128-Bit Rational Interval SMT Framework for Verifying Enstrophy Coercivity in 3D Incompressible Navier-Stokes Flows (Version 1.0.0) [Preprint]. CERN Zenodo. https://doi.org/10.5281/zenodo.24267996</code></pre>
 
 ---
 
