@@ -42,6 +42,9 @@ Conventional spectral DNS solvers and standalone PDE frameworks suffer from unbo
 │   ├── ARCHITECTURE.md          # Bare-metal O(1) stack topology & 7,865-byte GARRYULT spec
 │   ├── LAB_JOURNAL.md           # Chronological R&D logs & 5-Lemma / 128-Bit SMT audit
 │   └── WHITEPAPER.md            # Formal Preprint: Symbolic PDE & 128-Bit Interval SMT Prover
+├── paper/
+│   ├── paper.bib                # BibTeX bibliography for JOSS & formal verification literature
+│   └── paper.md                 # JOSS manuscript, YAML metadata & statement of need
 ├── src/
 │   ├── lib.rs                   # FSM, RationalInterval128 & Reductio-ad-Absurdum SMT Prover
 │   ├── main.rs                  # Bare-metal Symbolic Proof Tree benchmark harness & REPL
