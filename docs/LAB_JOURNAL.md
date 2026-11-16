@@ -23,3 +23,12 @@ This document records the chronological engineering logs, 10-kernel unification 
   - **Suite 4 (`ns_4_omniverse_ckn_smoothness.txt`, `omniverse_10pillar_unifier`, `Bitmask: 0x145`):** `Stretch S = 42.8702`, `Viscous D = 336.9765`, `dZ/dt_upper = -294.106363 (UNSAT)`, `CKN H^1(S) = 0.0000`, `Sobolev ||u||_H3 = 81.1759`, `Margin M_NS = +300.0222`, `Causal Links = 1 (0xD54B2F67)`, `Tree Seal = 0xEC6CD742` $\rightarrow$ Global `4809.738155` — Seal `0x0A0CF0A5`.
   - **Suite 5 (`ns_5_millennium_8axiom_omniverse.txt`, 8 Axioms / 5 Window Slides / 20 Stages, `Bitmask: 0x14F`):** `Causal Links = 4 (0x7FBEF33F)`, `Tree Seal = 0xEC6CD742` $\rightarrow$ Global `11429.421430` — Seal `0xBE75C6B3`.
 * `[#]` **Memory Checkpoint:** `GARRYULT` Formal Proof Release `v1.0.0` Locked (`14/14` unit tests passed in `0.01s`).
+
+---
+
+### Log: 16/11/26 || INTERNATIONAL ARCHIVAL & CRYPTOGRAPHIC COPYRIGHT SEAL (CERN ZENODO & UNESCO SOFTWARE HERITAGE)
+* `[x]` **CERN Data Centre (Zenodo) DOI Assigned:** `10.5281/zenodo.24252963` (Concept DOI: `10.5281/zenodo.24252962`).
+* `[x]` **UNESCO Software Heritage Perpetual Archive Locked:**
+  - **Directory SWHID:** `swh:1:dir:bd882108f75f5fedc5900a8a762a8552b952f6cc`
+  - **Revision Anchor:** `swh:1:rev:5e3a06c9ecdb52747fbd4936bab23333d8367b11`
+  - **Snapshot SWHID:** `swh:1:snp:12c1fc282417dbafad4112e4267ac4dba4b2f78c`
