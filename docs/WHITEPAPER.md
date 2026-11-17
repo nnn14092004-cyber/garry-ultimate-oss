@@ -69,15 +69,15 @@ Fixed-point bound propagation (`propagate_bounds`) detects an inconsistent inter
 
 ## 4. Summary of Reproducible Verification Suites (`ns_1` – `ns_5`)
 
-| Suite | Flow Manifold | Reynolds $Re$ | Stretch $S$ / Viscous $D$ |SMT $\dot{Z}_{\text{upper}}$ (`UNSAT`) | BKM Int. | Tree Seal / Final CRC-32 |
-| :--- | :--- | :---: | :---: | :---: | :---: | :---: |
-| **`ns_1`** | `prandtl_navier_river` | 48,000.0 | 57.6196 / 575.4737 | `-517.854144` | 18.2066 | `0x64C6A3D2` / `0x05FB1C67` |
-| **`ns_2`** | `kolmogorov_k41_cascade` | 176,000.0 | 140.4789 / 466.3490 | `-325.870087` | 41.4859 | `0x088739AE` / `0x19BFD591` |
-| **`ns_3`** | `beale_kato_majda_bkm` | 40,088.9 | 51.6772 / 556.2415 | `-504.564248` | 14.9701 | `0x86ACA950` / `0x6AFEC037` |
-| **`ns_4`** | `omniverse_10pillar` | 30,000.0 | 42.8702 / 336.9765 | `-294.106363` | 13.5310 | `0xEC6CD742` / `0x0A0CF0A5` |
-| **`ns_5`** | `8-Axiom / 20-Stage` | 30,000.0 | 42.8702 / 336.9765 | `-294.106363` | 13.5310 | `0xEC6CD742` / `0xBE75C6B3` |
+| Suite | Flow Manifold ($Re$ / BKM) | Stretch $S$ | Viscous $D$ | SMT $\dot{Z}_{\text{upper}}$ | Tree / Report CRC-32 |
+| :--- | :--- | :---: | :---: | :---: | :---: |
+| **`ns_1`** | `prandtl_navier_river` (48k / 18.21) | 57.6196 | 575.4737 | `-517.854144` | `0x64C6A3D2` / `0x05FB1C67` |
+| **`ns_2`** | `kolmogorov_k41_cascade` (176k / 41.49) | 140.4789 | 466.3490 | `-325.870087` | `0x088739AE` / `0x19BFD591` |
+| **`ns_3`** | `beale_kato_majda_bkm` (40.1k / 14.97) | 51.6772 | 556.2415 | `-504.564248` | `0x86ACA950` / `0x6AFEC037` |
+| **`ns_4`** | `omniverse_10pillar` (30k / 13.53) | 42.8702 | 336.9765 | `-294.106363` | `0xEC6CD742` / `0x0A0CF0A5` |
+| **`ns_5`** | `8-Axiom / 20-Stage` (30k / 13.53) | 42.8702 | 336.9765 | `-294.106363` | `0xEC6CD742` / `0xBE75C6B3` |
 
-> **Note on IEEE 754 `f64` Evaluation vs. `{:.4}` Diagnostic Formatting:** Intermediate PDE invariants ($S$, $D$, $\dot{Z} = S - D$, Homeostasis, and Margin $M_{\text{NS}}$) are evaluated in full 64-bit IEEE 754 precision prior to `{:.4}` display formatting in Tier 1 (e.g., in `ns_4` and `ns_5`, unrounded `S_stretch = 42.870181` and `D_visc = 336.976546` yield exact $\dot{Z} = -294.106365$, which formats to `-294.1064` at `{:.4}` and produces outward-rounded 128-bit micro-interval upper bound `-294.106363` after adding the $+2 \times 10^{-6}$ enclosure buffer).invariants ($S_{\text{stretch}}$, $D_{\text{visc}}$, $\dot{Z} = S_{\text{stretch}} - D_{\text{visc}}$, Homeostasis, and Margin $\mathcal{M}_{\text{NS}}$) are evaluated in full 64-bit IEEE 754 precision prior to `{:.4}` display formatting in Tier 1 (e.g., in `ns_4` and `ns_5`, unrounded $S_{\text{stretch}} = 42.870181$ and $D_{\text{visc}} = 336.976546$ yield exact $\dot{Z} = -294.106365$, which formats to `-294.1064` at `{:.4}` and produces outward-rounded 128-bit micro-interval upper bound $\dot{Z}_{\text{upper}} = -294.106363$ after adding the $+2 \times 10^{-6}$ enclosure buffer).
+> **Note on IEEE 754 `f64` Evaluation vs. `{:.4}` Diagnostic Formatting:** Intermediate PDE invariants ($S$, $D$, $\dot{Z} = S - D$, Homeostasis, and Margin $M_{\text{NS}}$) are evaluated in full 64-bit IEEE 754 precision prior to `{:.4}` display formatting in Tier 1 (e.g., in `ns_4` and `ns_5`, unrounded `S_stretch = 42.870181` and `D_visc = 336.976546` yield exact $\dot{Z} = -294.106365$, which formats to `-294.1064` at `{:.4}` and produces outward-rounded 128-bit micro-interval upper bound `-294.106363` after adding the $+2 \times 10^{-6}$ enclosure buffer).
 
 ---
 
