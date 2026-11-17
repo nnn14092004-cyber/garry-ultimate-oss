@@ -77,7 +77,7 @@ Fixed-point bound propagation (`propagate_bounds`) detects an inconsistent inter
 | **`ns_4`** | `omniverse_10pillar` (30k / 13.53) | 42.8702 | 336.9765 | `-294.106363` | `0xEC6CD742` / `0x0A0CF0A5` |
 | **`ns_5`** | `8-Axiom / 20-Stage` (30k / 13.53) | 42.8702 | 336.9765 | `-294.106363` | `0xEC6CD742` / `0xBE75C6B3` |
 
-> **Note on IEEE 754 `f64` Evaluation vs. `{:.4}` Diagnostic Formatting:** Intermediate PDE invariants ($S$, $D$, $\dot{Z} = S - D$, Homeostasis, and Margin $M_{\text{NS}}$) are evaluated in full 64-bit IEEE 754 precision prior to `{:.4}` display formatting in Tier 1 (e.g., in `ns_4` and `ns_5`, unrounded `S_stretch = 42.870181` and `D_visc = 336.976546` yield exact $\dot{Z} = -294.106365$, which formats to `-294.1064` at `{:.4}` and produces outward-rounded 128-bit micro-interval upper bound `-294.106363` after adding the $+2 \times 10^{-6}$ enclosure buffer).
+**Note on IEEE 754 `f64` Evaluation vs. `{:.4}` Diagnostic Formatting:** Intermediate PDE invariants ($S$, $D$, $\dot{Z} = S - D$, Homeostasis, and Margin $M_{\text{NS}}$) are evaluated in full 64-bit IEEE 754 precision prior to `{:.4}` display formatting in Tier 1 (e.g., in `ns_4` and `ns_5`, unrounded `S_stretch = 42.870181` and `D_visc = 336.976546` yield exact $\dot{Z} = -294.106365$, which formats to `-294.1064` at `{:.4}` and produces outward-rounded 128-bit micro-interval upper bound `-294.106363` after adding the $+2 \times 10^{-6}$ enclosure buffer).
 
 ---
 
