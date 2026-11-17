@@ -1,4 +1,4 @@
-# GARRY THE ULTIMATE OSS — Deterministic R&D Lab Journal & Formal Symbolic / SMT Proof Log
+﻿# GARRY THE ULTIMATE OSS — Deterministic R&D Lab Journal & Formal Symbolic / SMT Proof Log
 
 This document records the chronological engineering logs, 10-kernel unification milestones, and the surgical transition from numerical evaluation to the **5-Lemma Symbolic PDE Deduction Tree (`SymbolicPdeProofTree`)** and **128-Bit Rational Interval SMT Reductio-ad-Absurdum Prover (`RationalInterval128`)** in **Garry The Ultimate (`garry-ultimate-oss`)**.
 
@@ -27,10 +27,10 @@ This document records the chronological engineering logs, 10-kernel unification 
 ---
 
 ### Log: 16/11/26 || INTERNATIONAL ARCHIVAL & CRYPTOGRAPHIC COPYRIGHT SEAL (CERN ZENODO & UNESCO SOFTWARE HERITAGE)
-* `[x]` **CERN Data Centre (Zenodo) DOI Assigned:** `10.5281/zenodo.24252963` (Concept DOI: `10.5281/zenodo.24252962`).
+* `[x]` **CERN Data Centre (Zenodo) DOI Assigned:** `10.5281/zenodo.24311836` (Concept DOI: `10.5281/zenodo.24252962`).
 * `[x]` **UNESCO Software Heritage Perpetual Archive Locked:**
-  - **Directory SWHID:** `swh:1:dir:bd882108f75f5fedc5900a8a762a8552b952f6cc`
-  - **Revision Anchor:** `swh:1:rev:5e3a06c9ecdb52747fbd4936bab23333d8367b11`
+  - **Directory SWHID:** `swh:1:dir:ad3e2b0137ca7b0eb223aa1fd4eb8ced5146a001`
+  - **Revision Anchor:** `swh:1:rev:d3edbc5fb695dfb1f53b376e61a3913570911719`
   - **Snapshot SWHID:** `swh:1:snp:12c1fc282417dbafad4112e4267ac4dba4b2f78c`
 
 ---

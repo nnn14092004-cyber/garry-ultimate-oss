@@ -1,13 +1,13 @@
-# GARRY THE ULTIMATE OSS — 10-Pillar Omniverse Synthesis, 5-Lemma Symbolic PDE Prover & 128-Bit Interval SMT Navier-Stokes Kernel
+﻿# GARRY THE ULTIMATE OSS — 10-Pillar Omniverse Synthesis, 5-Lemma Symbolic PDE Prover & 128-Bit Interval SMT Navier-Stokes Kernel
 
 [![CI/CD Pipeline](https://img.shields.io/badge/CI%2FCD-Passing%20(Linux%20%7C%20macOS%20%7C%20Windows)-brightgreen?style=flat-square)](#continuous-integration--multi-os-verification)
 [![Dependencies](https://img.shields.io/badge/External%20Crates-0%20(100%25%20Pure%20Rust%20core%2Fstd)-blue?style=flat-square)](#architectural-manifesto--first-principles-invariants)
 [![Memory Bound](https://img.shields.io/badge/Memory%20Model-O(1)%20Stack--Bounded-orange?style=flat-square)](#architectural-manifesto--first-principles-invariants)
 [![Formal Prover](https://img.shields.io/badge/Proof%20Engine-5--Lemma%20AST%20%2B%20128--Bit%20SMT%20UNSAT-purple?style=flat-square)](#end-to-end-verification-walkthrough-3d-navier-stokes-millennium-proof-guide)
 [![ORCID](https://img.shields.io/badge/ORCID-0009--0006--8216--0594-a6ce39?style=flat-square)](https://orcid.org/0009-0006-8216-0594)
-[![Software DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24252963.svg)](https://doi.org/10.5281/zenodo.24252963)
+[![Software DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24311836.svg)](https://doi.org/10.5281/zenodo.24311836)
 [![Preprint DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24267996.svg)](https://doi.org/10.5281/zenodo.24267996)
-[![SWH](https://archive.softwareheritage.org/badge/swh:1:dir:bd882108f75f5fedc5900a8a762a8552b952f6cc/)](https://archive.softwareheritage.org/swh:1:dir:bd882108f75f5fedc5900a8a762a8552b952f6cc;origin=https://github.com/nnn14092004-cyber/garry-ultimate-oss;visit=swh:1:snp:12c1fc282417dbafad4112e4267ac4dba4b2f78c;anchor=swh:1:rev:5e3a06c9ecdb52747fbd4936bab23333d8367b11)
+[![SWH](https://archive.softwareheritage.org/badge/swh:1:dir:ad3e2b0137ca7b0eb223aa1fd4eb8ced5146a001/)](https://archive.softwareheritage.org/swh:1:dir:ad3e2b0137ca7b0eb223aa1fd4eb8ced5146a001;origin=https://github.com/nnn14092004-cyber/garry-ultimate-oss;visit=swh:1:snp:352b1f4b7b2a654638a8915d317a12f2fe2a39e9;anchor=swh:1:rev:d3edbc5fb695dfb1f53b376e61a3913570911719)
 [![License](https://img.shields.io/badge/License-MIT-informational?style=flat-square)](#license)
 
 **Author:** Nguyen Nhat Nam ([ORCID: 0009-0006-8216-0594](https://orcid.org/0009-0006-8216-0594)) — Independent Systems & Formal Verification Researcher; FinTech Undergraduate, Nha Trang University, Khanh Hoa, Vietnam.
@@ -844,7 +844,7 @@ Every commit and pull request is verified via GitHub Actions (`.github/workflows
 
 Formal derivations, adversarial falsification audits, and architectural proofs are documented in [`docs/WHITEPAPER.md`](docs/WHITEPAPER.md), [`docs/AXIOM_MANIFEST.md`](docs/AXIOM_MANIFEST.md), [`docs/FALSIFICATION_LOG.md`](docs/FALSIFICATION_LOG.md), and [`CITATION.cff`](CITATION.cff):
 
-<pre><code>Nguyen, N. N. (2026). Garry The Ultimate OSS: Bare-Metal O(1) 10-Pillar Omniverse & 3D Incompressible Navier-Stokes Symbolic PDE / 128-Bit Interval SMT Prover (Version 2.0.0) [Computer software]. CERN Zenodo. https://doi.org/10.5281/zenodo.24252963 (UNESCO SWHID: swh:1:dir:bd882108f75f5fedc5900a8a762a8552b952f6cc;anchor=swh:1:rev:5e3a06c9ecdb52747fbd4936bab23333d8367b11)
+<pre><code>Nguyen, N. N. (2026). Garry The Ultimate OSS: Bare-Metal O(1) 10-Pillar Omniverse & 3D Incompressible Navier-Stokes Symbolic PDE / 128-Bit Interval SMT Prover (Version 2.0.0) [Computer software]. CERN Zenodo. https://doi.org/10.5281/zenodo.24311836 (UNESCO SWHID: swh:1:dir:ad3e2b0137ca7b0eb223aa1fd4eb8ced5146a001;anchor=swh:1:rev:d3edbc5fb695dfb1f53b376e61a3913570911719)
 
 Nguyen, N. N. (2026). A Bare-Metal O(1) Stack-Bounded Symbolic PDE & 128-Bit Rational Interval SMT Framework for Verifying Enstrophy Coercivity in 3D Incompressible Navier-Stokes Flows (Version 2.0.0) [Preprint]. CERN Zenodo. https://doi.org/10.5281/zenodo.24267996</code></pre>
 

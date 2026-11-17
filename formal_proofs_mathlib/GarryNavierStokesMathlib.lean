@@ -1,4 +1,4 @@
-module
+﻿module
 
 import Mathlib.Basic.Real.Basic
 import Mathlib.Tactic.Linarith
@@ -8,8 +8,8 @@ import Mathlib.Tactic.Positivity
 /-!
 # GARRYULT v2.0.0 — Complete Mathlib4 Formalization of 3D Navier-Stokes Regularity
 Author: Nguyen Nhat Nam (ORCID: 0009-0006-8216-0594)
-Preprint DOI: 10.5281/zenodo.24267996 | Software DOI: 10.5281/zenodo.24252963
-UNESCO SWHID: swh:1:dir:bd882108f75f5fedc5900a8a762a8552b952f6cc
+Preprint DOI: 10.5281/zenodo.24267996 | Software DOI: 10.5281/zenodo.24311836
+UNESCO SWHID: swh:1:dir:ad3e2b0137ca7b0eb223aa1fd4eb8ced5146a001
 
 This master module closes the analytical gap for Clay Mathematics Institute (CMI) verification by:
 1. Formalizing all 5 First-Principles Symbolic PDE Lemmas (Gauss-Leray, Hodge-Helmholtz,

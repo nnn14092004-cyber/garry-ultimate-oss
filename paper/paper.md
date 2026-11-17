@@ -1,4 +1,4 @@
----
+﻿---
 title: 'GARRYULT: A Bare-Metal O(1) Rust Formal Prover for 3D Incompressible Navier-Stokes Regularity via 5-Lemma Symbolic PDE Deduction and 128-Bit Interval SMT Certificates'
 tags:
   - Rust
