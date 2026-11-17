@@ -1,8 +1,12 @@
 [package]
 name = "garry-ultimate-oss"
-version = "1.0.0"
+version = "2.0.0"
 edition = "2021"
-description = "Garry The Ultimate Absolute Deterministic Entity: 10-Pillar Omniverse Synthesis & 3D Incompressible Navier-Stokes Millennium Regularity Kernel in 100% Pure Rust"
+rust-version = "1.75"
+authors = ["Nguyen Nhat Nam <https://orcid.org/0009-0006-8216-0594>"]
+description = "Bare-metal O(1) stack-bounded 5-Lemma Symbolic PDE and 128-bit outward-rounded rational interval SMT prover for 3D incompressible Navier-Stokes regularity"
+readme = "README.md"
+repository = "https://github.com/nnn14092004-cyber/garry-ultimate-oss"
 license = "MIT"
 
 [dependencies]

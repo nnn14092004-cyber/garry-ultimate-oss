@@ -1,7 +1,7 @@
-//! Garry The Ultimate Absolute Deterministic Entity (`garry-ultimate-oss`):
-//! 10-Pillar Omniverse Synthesis & 3D Incompressible Navier-Stokes Millennium Regularity FSM,
-//! 128-Bit Rational Interval SMT Reductio-ad-Absurdum Singularity Prover,
-//! and 4-Round Enstrophy/BKM/Sobolev Refutation Kernel.
+//! Core `#![no_std]`-compatible deterministic finite-state verification kernel (`garry-ultimate-oss`):
+//! Outward-rounded 128-bit rational interval arithmetic (`RationalInterval128`),
+//! linear integer bound-propagation SMT solver (`DeterministicSmtProver`),
+//! and 4-round adversarial falsification engine for 3D incompressible Navier-Stokes regularity.
 
 pub mod crc;
 pub mod ephemeral;
@@ -273,6 +273,42 @@ impl DeterministicSmtProver {
             },
         };
         (verdict, dz_dt_interval)
+    }
+
+    /// Micro-Scaled Integer Coercivity Boundary Verifier (`Scale = 10^6`):
+    /// Evaluates pre-scaled 128-bit integer bounds `stretching_upper_micro` and
+    /// `palinstrophy_lower_micro`. Returns `SmtSatResult::Unsatisfiable`
+    /// if and only if `palinstrophy_lower_micro - stretching_upper_micro >= 1`.
+    pub fn prove_micro_scaled_no_blowup_by_contradiction(
+        &mut self,
+        stretching_upper_micro: i128,
+        palinstrophy_lower_micro: i128,
+    ) -> (SmtSatResult, i128) {
+        let dz_dt_upper_micro = stretching_upper_micro.saturating_sub(palinstrophy_lower_micro);
+        let _ = self.ensure_signed_variable(SMT_BLOWUP_HYPOTHESIS_HASH);
+
+        let _ = self.add_precondition(SmtConstraint {
+            lhs_var_hash: SMT_BLOWUP_HYPOTHESIS_HASH,
+            op: SmtRelationOp::GreaterOrEqual,
+            rhs_constant: 0,
+            rhs_var_hash: None,
+        });
+
+        let _ = self.add_precondition(SmtConstraint {
+            lhs_var_hash: SMT_BLOWUP_HYPOTHESIS_HASH,
+            op: SmtRelationOp::LessOrEqual,
+            rhs_constant: dz_dt_upper_micro,
+            rhs_var_hash: None,
+        });
+
+        let consistent = self.propagate_bounds();
+        let verdict = match consistent {
+            false => SmtSatResult::Unsatisfiable,
+            true => SmtSatResult::Satisfiable {
+                witness_value: dz_dt_upper_micro,
+            },
+        };
+        (verdict, dz_dt_upper_micro)
     }
 
     pub fn propagate_bounds(&mut self) -> bool {
@@ -1435,5 +1471,26 @@ mod tests {
         let (verdict, interval) = prover.prove_no_blowup_by_contradiction(41.6239, 198.4500);
         assert_eq!(verdict, SmtSatResult::Unsatisfiable);
         assert!(interval.is_strictly_negative());
+    }
+
+    #[test]
+    fn test_adversarial_micro_unit_coercivity_boundary_fail_closed() {
+        let mut prover_pass = DeterministicSmtProver::new();
+        let (verdict_pass, dz_pass) =
+            prover_pass.prove_micro_scaled_no_blowup_by_contradiction(336_976_563, 336_976_564);
+        assert_eq!(dz_pass, -1);
+        assert_eq!(verdict_pass, SmtSatResult::Unsatisfiable);
+
+        let mut prover_zero = DeterministicSmtProver::new();
+        let (verdict_zero, dz_zero) =
+            prover_zero.prove_micro_scaled_no_blowup_by_contradiction(336_976_564, 336_976_564);
+        assert_eq!(dz_zero, 0);
+        assert_eq!(verdict_zero, SmtSatResult::Satisfiable { witness_value: 0 });
+
+        let mut prover_fail = DeterministicSmtProver::new();
+        let (verdict_fail, dz_fail) =
+            prover_fail.prove_micro_scaled_no_blowup_by_contradiction(336_976_565, 336_976_564);
+        assert_eq!(dz_fail, 1);
+        assert_eq!(verdict_fail, SmtSatResult::Satisfiable { witness_value: 1 });
     }
 }

@@ -1,4 +1,6 @@
-/target
+﻿/target/
 **/*.rs.bk
-task_report.txt
-garry_workspace/solutions/
+/.lake/
+/formal_proofs_mathlib/.lake/
+/formal_proofs_mathlib/build/
+**/.lake/

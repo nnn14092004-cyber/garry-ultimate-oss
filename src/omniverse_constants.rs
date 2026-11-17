@@ -1,5 +1,5 @@
-//! O(1) compile-time 10-Pillar Omniverse Constants & 3D Incompressible Navier-Stokes
-//! Millennium Regularity Manifolds (Waterfall-to-River L1->L2 Viscous Regularization LUT).
+//! Compile-time physical constants and 10-manifold hydrodynamic parameter lookup table (LUT)
+//! for 3D incompressible Navier-Stokes enstrophy, BKM, Serrin, and CKN regularity benchmarks.
 
 pub const KOLMOGOROV_FIVE_THIRDS_EXP: f64 = 1.666_666_666_67;
 pub const KOLMOGOROV_CONSTANT_CK: f64 = 1.50;

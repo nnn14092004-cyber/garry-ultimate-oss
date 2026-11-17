@@ -1,6 +1,5 @@
-//! Ephemeral 10-Pillar Omniverse & 3D Incompressible Navier-Stokes Millennium Regularity
-//! axiom synthesis, FNV-1a fast-gate funnel, 256-slot priority vitality hypergraph,
-//! and deterministic L2 knowledge engine.
+//! Domain axiom parser, FNV-1a branchless token hashing, fast-gate acceptance funnel,
+//! 4-slot sliding window pipeline, and `.jsonl` knowledge persistence coordinator.
 
 use std::io::Write;
 use std::path::Path;

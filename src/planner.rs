@@ -1,5 +1,5 @@
-//! Deterministic 10-Pillar Omniverse & 3D Navier-Stokes Millennium Regularity intent classification,
-//! stack ping-pong composite stage splitting, target `.txt` file extraction, and execution DAG builder.
+//! Query intent classifier, stack-allocated multi-stage pipeline splitter,
+//! target filename extractor, and Directed Acyclic Graph (DAG) execution planner.
 
 use crate::ephemeral::compute_problem_bitmask;
 use crate::plan::PlanGraph;

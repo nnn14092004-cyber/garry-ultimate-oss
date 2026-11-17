@@ -1,7 +1,5 @@
-//! 100% Pure-Rust, Zero-Heap 3D Incompressible Navier-Stokes Symbolic PDE Proof Deduction,
-//! 128-Bit Rational Interval Reductio-ad-Absurdum Blow-Up Exclusion,
-//! Beale-Kato-Majda / Ladyzhenskaya-Prodi-Serrin / Constantin-Fefferman / CKN Millennium Bounds,
-//! 10-Pillar Omniverse Unification Matrix, and StackOmniverseCpu Millennium Proof ISA Processor.
+//! Zero-heap 3D Navier-Stokes enstrophy-palinstrophy evaluator, BKM/Serrin/CKN regularity bound calculator,
+//! and fixed-stack instruction-set processor (`StackOmniverseCpu`).
 
 use crate::omniverse_constants::{
     OmniverseFlowManifoldSpec, KOLMOGOROV_CONSTANT_CK, LADYSHENSKAYA_CONST_C3,

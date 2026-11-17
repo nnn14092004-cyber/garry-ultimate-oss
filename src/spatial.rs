@@ -1,7 +1,6 @@
-//! 3D Navier-Stokes & 10-Pillar Omniverse Topologies: Taylor-Green Solenoidal Vortex Tube Mesh,
-//! Arnold-Beltrami-Childress Helical Vortex Filament, Waterfall-to-River (L1->L2) Plunge-Pool Basin,
-//! 10-Pillar Omniverse Dual-Cone Octahedron, Kolmogorov K41 Inertial Cascade Pyramid,
-//! Constantin-Fefferman Vorticity Alignment Simplex, and Depth-Shaded 3D Rasterizer.
+//! Fixed-stack 3D wireframe geometry builder and depth-shaded ASCII rasterizer for
+//! Taylor-Green vortex meshes, Arnold-Beltrami-Childress helical filaments,
+//! Kolmogorov cascade polytopes, and plunge-pool-to-tailwater flow domains.
 
 pub const MAX_CANVAS_WIDTH: usize = 80;
 pub const MAX_CANVAS_HEIGHT: usize = 24;
