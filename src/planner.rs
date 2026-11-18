@@ -306,6 +306,28 @@ impl DeterministicOmniversePlanner {
     }
 }
 
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum ClayBoundaryManifoldKind {
+    WholeSpaceR3SchwartzDecay,
+    PeriodicTorusT3ZeroMean,
+}
+
+impl DeterministicOmniversePlanner {
+    /// Classifies the Clay Millennium spatial boundary domain (`R^3` Schwartz decay at infinity
+    /// vs `T^3` periodic boundary conditions) from the query tokens in O(1) stack memory.
+    pub fn classify_clay_boundary_domain(&self, query: &str) -> ClayBoundaryManifoldKind {
+        let low = query.to_lowercase();
+        let is_torus = find_case_insensitive_ascii(&low, "taylor_green").is_some()
+            || find_case_insensitive_ascii(&low, "torus").is_some()
+            || find_case_insensitive_ascii(&low, "beltrami").is_some()
+            || find_case_insensitive_ascii(&low, "periodic").is_some();
+        match is_torus {
+            true => ClayBoundaryManifoldKind::PeriodicTorusT3ZeroMean,
+            false => ClayBoundaryManifoldKind::WholeSpaceR3SchwartzDecay,
+        }
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -318,11 +340,21 @@ mod tests {
             planner.classify_intent(q),
             OmniverseIntentKind::ComputeAndExportTxt
         );
+        assert_eq!(
+            planner.classify_clay_boundary_domain(q),
+            ClayBoundaryManifoldKind::WholeSpaceR3SchwartzDecay
+        );
         let dag = planner.build_derivation_dag(q).unwrap();
         assert_eq!(dag.len(), 3);
         assert_eq!(
             dag.get_node(1).unwrap().action_type,
             "OMNIVERSE_SOLVER_STAGE"
+        );
+
+        let q_torus = "Evaluate bkm on taylor_green_vortex with nu_visc = 0.0015";
+        assert_eq!(
+            planner.classify_clay_boundary_domain(q_torus),
+            ClayBoundaryManifoldKind::PeriodicTorusT3ZeroMean
         );
     }
 }

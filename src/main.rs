@@ -501,7 +501,7 @@ fn run_canonical_millennium_suites() {
         match solver.solve_and_export_txt(canonical_queries[q_idx], &mut l2_hypergraph) {
             Ok((_, saved_path)) => {
                 println!(
-                    "[SUITE ns_{} VERIFIED & EXPORTED]: {} (+ .smt2 & .lean v2.0.0 certificates)",
+                    "[SUITE ns_{} VERIFIED & EXPORTED]: {} (+ .smt2 & .lean v3.0.0 certificates)",
                     q_idx + 1,
                     saved_path
                 );

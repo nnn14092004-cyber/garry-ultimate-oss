@@ -1,5 +1,5 @@
 # ==============================================================================
-# Stage 1: Deterministic Pure-Rust Builder (Zero External Crates)
+# Stage 1: Deterministic Pure-Rust Builder (Zero External Crates, v3.0.0)
 # ==============================================================================
 FROM rust:1.82-slim-bookworm AS builder
 
@@ -8,6 +8,7 @@ WORKDIR /usr/src/garry-ultimate-oss
 COPY Cargo.toml LICENSE README.md ROADMAP.md ./
 COPY src ./src
 COPY docs ./docs
+COPY paper ./paper
 
 RUN cargo clippy --all-targets -- -D warnings && \
     cargo test --release && \

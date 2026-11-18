@@ -1,8 +1,8 @@
-﻿cff-version: 1.2.0
+cff-version: 1.2.0
 message: "If you use Garry The Ultimate OSS or its 5-Lemma Symbolic PDE & 128-Bit Interval SMT Prover in your research, please cite it using the metadata below."
 title: "Garry The Ultimate OSS: Bare-Metal O(1) 10-Pillar Omniverse & 3D Incompressible Navier-Stokes Symbolic PDE / 128-Bit Interval SMT Prover"
-version: 2.0.0
-date-released: 2026-11-17
+version: 3.0.0
+date-released: 2026-11-18
 doi: "10.5281/zenodo.24311836"
 url: "https://doi.org/10.5281/zenodo.24311836"
 license: MIT
