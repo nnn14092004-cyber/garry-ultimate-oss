@@ -5,7 +5,7 @@
 **Framework Architecture:** `garry-ultimate-oss` v3.0.0 (`GARRYULT` Formal Verification Kernel)  
 **CERN Zenodo Preprint DOI (v3.0.0):** [10.5281/zenodo.24346364](https://doi.org/10.5281/zenodo.24346364) *(Concept DOI: [10.5281/zenodo.24267996](https://doi.org/10.5281/zenodo.24267996))*  
 **CERN Zenodo Software DOI (v3.0.0):** [10.5281/zenodo.24344944](https://doi.org/10.5281/zenodo.24344944) *(Concept DOI: [10.5281/zenodo.24252962](https://doi.org/10.5281/zenodo.24252962); v2.0.0 DOI: [10.5281/zenodo.24311836](https://doi.org/10.5281/zenodo.24311836))*  
-**UNESCO Software Heritage SWHID:** `swh:1:dir:ad3e2b0137ca7b0eb223aa1fd4eb8ced5146a001`  
+**UNESCO Software Heritage SWHID:** `swh:1:dir:4ee205fa955cb5c4032e28d0786d6c50baff730f`  
 **Date:** November 18, 2026
 
 ---
@@ -98,5 +98,5 @@ All mathematical formulations, the symbolic PDE deduction architecture (`Symboli
 4. **Caffarelli, L., Kohn, R., & Nirenberg, L.** (1982). Partial regularity of suitable weak solutions of the Navier-Stokes equations. *Communications on Pure and Applied Mathematics*, 35(6), 771–831. https://doi.org/10.1002/cpa.3160350604
 5. **De Moura, L., & Bjørner, N.** (2008). Z3: An efficient SMT solver. In *TACAS 2008* (pp. 337–340). Springer. https://doi.org/10.1007/978-3-540-78800-3_24
 6. **De Moura, L., & Ullrich, S.** (2021). The Lean 4 theorem prover and programming language. In *CADE 2021* (pp. 625–635). Springer. https://doi.org/10.1007/978-3-030-79876-5_37
-7. **Nguyễn, N. N.** (2026). *GARRYULT v3.0.0: Bare-Metal O(1) Stack-Bounded Symbolic PDE, 128-Bit Interval SMT & Mathlib4 Navier-Stokes Prover* (Version 3.0.0) [Computer software]. CERN Zenodo. https://doi.org/10.5281/zenodo.24344944 (Concept DOI: https://doi.org/10.5281/zenodo.24252962; v2.0.0 DOI: https://doi.org/10.5281/zenodo.24311836; UNESCO SWHID: `swh:1:dir:ad3e2b0137ca7b0eb223aa1fd4eb8ced5146a001`)
+7. **Nguyễn, N. N.** (2026). *GARRYULT v3.0.0: Bare-Metal O(1) Stack-Bounded Symbolic PDE, 128-Bit Interval SMT & Mathlib4 Navier-Stokes Prover* (Version 3.0.0) [Computer software]. CERN Zenodo. https://doi.org/10.5281/zenodo.24344944 (Concept DOI: https://doi.org/10.5281/zenodo.24252962; v2.0.0 DOI: https://doi.org/10.5281/zenodo.24311836; UNESCO SWHID: `swh:1:dir:4ee205fa955cb5c4032e28d0786d6c50baff730f`)
 8. **Nguyễn, N. N.** (2026). *A Bare-Metal O(1) Stack-Bounded Symbolic PDE & 128-Bit Rational Interval SMT Framework for Verifying Enstrophy Coercivity in 3D Incompressible Navier-Stokes Flows* (Version 3.0.0) [Preprint]. CERN Zenodo. https://doi.org/10.5281/zenodo.24346364 (Concept DOI: https://doi.org/10.5281/zenodo.24267996)

@@ -52,7 +52,7 @@ Through **Phase XI (`v1.0.0`)**, **Phase XII (`v2.0.0`)**, and **Phase XIII (`v3
 
 ## Phase XII (`v2.0.0`): Adversarial Falsification Audit, Lean 4 Kernel Axiom Manifest & Archival — [COMPLETED]
 
-- **CERN Zenodo & UNESCO Software Heritage Archival:** Locked Software DOI `10.5281/zenodo.24311836` (Concept DOI `10.5281/zenodo.24252962`), Preprint DOI `10.5281/zenodo.24346364`, and SWHID `swh:1:dir:ad3e2b0137ca7b0eb223aa1fd4eb8ced5146a001`.
+- **CERN Zenodo & UNESCO Software Heritage Archival:** Locked Software DOI `10.5281/zenodo.24311836` (Concept DOI `10.5281/zenodo.24252962`), Preprint DOI `10.5281/zenodo.24346364`, and SWHID `swh:1:dir:4ee205fa955cb5c4032e28d0786d6c50baff730f`.
 - **Micro-Scaled Coercivity Falsification Gate (`docs/FALSIFICATION_LOG.md`):** Verifies that perturbing $\overline{S_{\text{stretch}}}$ above $\underline{D_{\text{visc}}}$ by a single micro-unit ($10^{-6}$) flips the solver from `UNSAT` to `SAT`.
 
 ---

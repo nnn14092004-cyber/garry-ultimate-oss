@@ -24,7 +24,7 @@ This document records the chronological engineering logs, 10-kernel unification 
 
 ### Log: 16/11/26 – 17/11/26 || INTERNATIONAL ARCHIVAL (CERN ZENODO & UNESCO SWHID) & RELEASE `v2.0.0`
 * `[x]` **CERN Data Centre (Zenodo) DOIs Assigned:** Software DOI `10.5281/zenodo.24311836` (Concept DOI: `10.5281/zenodo.24252962`); Preprint DOI `10.5281/zenodo.24346364`.
-* `[x]` **UNESCO Software Heritage Archive Locked:** Directory SWHID `swh:1:dir:ad3e2b0137ca7b0eb223aa1fd4eb8ced5146a001`.
+* `[x]` **UNESCO Software Heritage Archive Locked:** Directory SWHID `swh:1:dir:4ee205fa955cb5c4032e28d0786d6c50baff730f`.
 * `[x]` **Adversarial Falsification & Dual-Tier Lean 4 Audit (`v2.0.0`):** Established 1-bit micro-scaled coercivity falsification (`ADV-01` through `ADV-05`) and initial 10-theorem `Mathlib4` real-analysis formalization.
 
 ---
