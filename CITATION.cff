@@ -1,10 +1,11 @@
 cff-version: 1.2.0
-message: "If you use Garry The Ultimate OSS or its 5-Lemma Symbolic PDE & 128-Bit Interval SMT Prover in your research, please cite it using the metadata below."
-title: "Garry The Ultimate OSS: Bare-Metal O(1) 10-Pillar Omniverse & 3D Incompressible Navier-Stokes Symbolic PDE / 128-Bit Interval SMT Prover"
-version: 3.0.0
-date-released: 2026-11-18
-doi: "10.5281/zenodo.24344944"
-url: "https://doi.org/10.5281/zenodo.24344944"
+message: "If you use Garry The Ultimate OSS or its 8-Milestone Lean 4 / Mathlib4 3D Navier-Stokes formalization in your research, please cite it using the metadata below."
+title: "Garry The Ultimate OSS: Bare-Metal O(1) Symbolic PDE, 128-Bit Interval SMT & Two-Tier Lean 4 / Mathlib4 3D Navier-Stokes Formalization on T^3"
+version: 4.0.0
+date-released: 2026-11-20
+doi: "10.5281/zenodo.24252962"
+url: "https://doi.org/10.5281/zenodo.24252962"
+repository-code: "https://github.com/nnn14092004-cyber/garry-ultimate-oss"
 license: MIT
 authors:
   - family-names: "Nguyen"
@@ -13,6 +14,7 @@ authors:
     affiliation: "Nha Trang University, Vietnam"
 keywords:
   - "navier-stokes"
+  - "partial-differential-equations"
   - "automated-theorem-proving"
   - "smt-solver"
   - "interval-arithmetic"
@@ -20,3 +22,4 @@ keywords:
   - "rust"
   - "no-std"
   - "lean4"
+  - "mathlib4"

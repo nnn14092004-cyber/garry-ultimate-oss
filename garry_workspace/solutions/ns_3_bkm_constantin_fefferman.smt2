@@ -1,5 +1,5 @@
 ; ==============================================================================
-; 4-TIER SMT-LIB 2.6 FORMAL CERTIFICATE — GARRY THE ULTIMATE OSS (v3.0.0)
+; 4-TIER SMT-LIB 2.6 FORMAL CERTIFICATE — GARRY THE ULTIMATE OSS (v4.0.0)
 ; Tree Seal: 0x86ACA950 | Final Report CRC-32: 0x6AFEC037 | Scale: 10^6 (Micro)
 ; ==============================================================================
 (set-logic QF_LIA)
@@ -71,9 +71,9 @@
 (assert (= Infrared_leray_ceiling_micro 548456364))
 (assert (= Re_micro 40088900000))
 (assert (= Z_eq_micro 258800000))
-(assert (= S_stretch_upper_micro 51677201))
-(assert (= R_tail_upper_micro 2))
-(assert (= D_visc_lower_micro 556241449))
+(assert (= S_stretch_upper_micro 51677242))
+(assert (= R_tail_upper_micro 3))
+(assert (= D_visc_lower_micro 556241490))
 (assert (= Asymptotic_stretch_slope_upper_micro 216010))
 (assert (= Viscous_spectral_slope_lower_micro 2149271))
 (assert (= Z_leaf_0_micro 275000001))

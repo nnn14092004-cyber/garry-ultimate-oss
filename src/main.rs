@@ -157,6 +157,7 @@ enum CliCommand<'a> {
     Bench,
     Storage,
     Hypergraph,
+    Synthesize(&'a str),
     Swarm(&'a str),
     Solve(&'a str),
 }
@@ -173,6 +174,10 @@ fn parse_cli_command(line: &str) -> CliCommand<'_> {
         "storage" | ":storage" | ":axioms" => return CliCommand::Storage,
         "hypergraph" | ":hypergraph" => return CliCommand::Hypergraph,
         _ => {}
+    }
+    match trimmed.strip_prefix(":synthesize") {
+        Some(spec) => return CliCommand::Synthesize(spec.trim()),
+        None => {}
     }
     match trimmed.strip_prefix(":swarm ") {
         Some(topic) => return CliCommand::Swarm(topic.trim()),
@@ -275,6 +280,22 @@ fn run_interactive_repl() {
                     idx += 1;
                 }
                 println!();
+            }
+            CliCommand::Synthesize(spec) => {
+                let effective_spec = match spec.is_empty() {
+                    true => "kx=1.0, ky=2.0, kz=-3.0, ax=4.0, ay=1.0, az=2.0, nu=0.0005, l0=2.40",
+                    false => spec,
+                };
+                match solver.synthesize_autonomous_u0_and_export_certificates(effective_spec) {
+                    Ok((rep, txt_p, smt_p, lean_p)) => {
+                        println!("\n{}", rep);
+                        println!("  [AUTONOMOUS v4.0.0 CERTIFICATES EMITTED]");
+                        println!("  - Report:   {}", txt_p);
+                        println!("  - SMT-LIB:  {}", smt_p);
+                        println!("  - Lean 4:   {}\n", lean_p);
+                    }
+                    Err(e) => println!("\n  [AUTONOMOUS SYNTHESIZER REJECTED]: {}\n", e),
+                }
             }
             CliCommand::Swarm(topic) => {
                 let is_md_file = topic.ends_with(".md") || topic.ends_with(".txt");
@@ -501,7 +522,7 @@ fn run_canonical_millennium_suites() {
         match solver.solve_and_export_txt(canonical_queries[q_idx], &mut l2_hypergraph) {
             Ok((_, saved_path)) => {
                 println!(
-                    "[SUITE ns_{} VERIFIED & EXPORTED]: {} (+ .smt2 & .lean v3.0.0 certificates)",
+                    "[SUITE ns_{} VERIFIED & EXPORTED]: {} (+ .smt2 & .lean v4.0.0 certificates)",
                     q_idx + 1,
                     saved_path
                 );
@@ -514,12 +535,40 @@ fn run_canonical_millennium_suites() {
     }
 }
 
+fn run_autonomous_synthesizer_cli(spec_opt: Option<&str>) {
+    let solver = UniversalOmniverseSolver::new();
+    let default_spec = "kx=1.0, ky=2.0, kz=-3.0, ax=4.0, ay=1.0, az=2.0, nu=0.0005, l0=2.40";
+    let effective_spec = match spec_opt {
+        Some(s) => match s.trim().is_empty() {
+            true => default_spec,
+            false => s.trim(),
+        },
+        None => default_spec,
+    };
+    match solver.synthesize_autonomous_u0_and_export_certificates(effective_spec) {
+        Ok((rep, txt_p, smt_p, lean_p)) => {
+            println!("{}", rep);
+            println!("[AUTONOMOUS v4.0.0 CERTIFICATES VERIFIED & EXPORTED]:");
+            println!("  - Diagnostic Report: {}", txt_p);
+            println!("  - SMT-LIB 2.6 Cert:  {}", smt_p);
+            println!("  - Lean 4 Core Cert:  {}", lean_p);
+        }
+        Err(e) => {
+            println!("[AUTONOMOUS SYNTHESIZER FAIL-CLOSED REJECTION]: {}", e);
+        }
+    }
+}
+
 fn main() {
     let mut args = std::env::args();
     let _bin = args.next();
     match args.next().as_deref() {
         Some("bench") | Some("--bench") => run_bare_metal_benchmarks(),
         Some("solutions") | Some("--solutions") => run_canonical_millennium_suites(),
+        Some("synthesize") | Some("--synthesize") => {
+            let spec_arg = args.next();
+            run_autonomous_synthesizer_cli(spec_arg.as_deref());
+        }
         _ => run_interactive_repl(),
     }
 }

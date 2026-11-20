@@ -1,4 +1,4 @@
-name: Garry The Ultimate OSS Deterministic CI/CD
+name: Garry The Ultimate OSS Deterministic CI/CD (v4.0.0)
 
 on:
   push:
@@ -13,7 +13,7 @@ env:
 
 jobs:
   verify-deterministic-kernel:
-    name: Verify O(1) Omniverse & Navier-Stokes Kernel (${{ matrix.os }})
+    name: Verify O(1) Rust Kernel & Autonomous Synthesizer (${{ matrix.os }})
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
@@ -37,10 +37,15 @@ jobs:
         run: |
           cargo clippy --all-targets -- -D warnings
 
-      - name: Gate 3 - Execute 23/23 Omniverse & Navier-Stokes Unit & Falsification Tests
+      - name: Gate 3 - Execute 30/30 Omniverse, Autonomous v4 & Falsification Tests
         run: |
-          cargo test --verbose
+          cargo test --release --verbose
 
       - name: Gate 4 - Bare-Metal O(1) Release Benchmark Smoke Test
         run: |
           cargo run --release -- bench
+
+      - name: Gate 5 - Verify Canonical Suites (ns_1..ns_5) & Autonomous u0 Synthesizer
+        run: |
+          cargo run --release -- solutions
+          cargo run --release -- synthesize

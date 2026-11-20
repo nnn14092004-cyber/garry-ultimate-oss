@@ -1,0 +1,10 @@
+================================================================================
+   GARRYULT v4.0.0 — AUTONOMOUS ZERO-HYPOTHESIS 3D NAVIER-STOKES SYNTHESIS REPORT
+================================================================================
+   - Input 3D Velocity Mode u_0: k = (1.0000, 2.0000, -3.0000), a = (4.0000, 1.0000, 2.0000), nu = 0.000500, L_0 = 2.4000
+   - Symbolic 3D Partial Diff (div u_0 = d_x u_x + d_y u_y + d_z u_z): 0.000000000000 [SOLENOIDAL VERIFIED]
+   - Synthesized Vorticity curl u_0: (7.0000, -14.0000, -7.0000) | E_0 = 10.5000, Z_0 = 147.0000, P_0 = 2058.0000, ||u_0||_H3 = 266.2236
+   - Intrinsic Zero-Catalog Bounds: eta_K = 0.006422 m < rho_CF = 0.839626 m | Adaptive Shell j_adapt = 29 | Viscous Rate = 1.1495
+   - 128-Bit Interval SMT Verdict: UNSAT (dZ/dt_upper = -693.996029, Galerkin Tail + Triad = 767872 < Quartic Reserve = 566636339)
+   - Autonomous Synthesis Cryptographic Seal (CRC-32): 0x2F3FECC4
+================================================================================

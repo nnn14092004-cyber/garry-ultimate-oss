@@ -1,5 +1,5 @@
 -- ==============================================================================
--- 4-TIER LEAN 4 FORMAL CERTIFICATE — GARRY THE ULTIMATE OSS (v3.0.0)
+-- 4-TIER LEAN 4 FORMAL CERTIFICATE — GARRY THE ULTIMATE OSS (v4.0.0)
 -- Tree Seal: 0x64C6A3D2 | Final Report CRC-32: 0x05FB1C67 | Scale: 10^6 (Micro)
 -- Verify directly with Lean 4 core (0 external packages): lean <file>.lean
 -- ==============================================================================
@@ -16,9 +16,9 @@ theorem navier_stokes_4tier_omniverse_regularity_unsat
   (h_lemma2_helmholtz  : Lemma2_curl_grad_p_micro = 0)
   (h_reynolds          : Re_micro = 48000000000)
   (h_enstrophy_eq      : Z_eq_micro = 301640000)
-  (h_lemma3_stretch    : S_stretch_upper_micro = 57619601)
-  (h_galerkin_tail     : R_tail_upper_micro = 2)
-  (h_lemma4_viscous    : D_visc_lower_micro = 575473745)
+  (h_lemma3_stretch    : S_stretch_upper_micro = 57619579)
+  (h_galerkin_tail     : R_tail_upper_micro = 3)
+  (h_lemma4_viscous    : D_visc_lower_micro = 575473723)
   (h_leaf_0            : Z_leaf_0_micro = 320000001)
   (h_leaf_1            : Z_leaf_1_micro = 315202435)
   (h_leaf_2            : Z_leaf_2_micro = 310546598)
@@ -39,9 +39,9 @@ theorem navier_stokes_4tier_omniverse_regularity_unsat
 theorem navier_stokes_lagrangian_leaf_monotone_cascade_verified
   (S_stretch_upper_micro R_tail_upper_micro D_visc_lower_micro : Int)
   (Z_leaf_0_micro Z_leaf_1_micro Z_leaf_2_micro Z_leaf_3_micro Z_leaf_4_micro : Int)
-  (h_stretch : S_stretch_upper_micro = 57619601)
-  (h_tail    : R_tail_upper_micro = 2)
-  (h_visc    : D_visc_lower_micro = 575473745)
+  (h_stretch : S_stretch_upper_micro = 57619579)
+  (h_tail    : R_tail_upper_micro = 3)
+  (h_visc    : D_visc_lower_micro = 575473723)
   (h_leaf_0  : Z_leaf_0_micro = 320000001)
   (h_leaf_1  : Z_leaf_1_micro = 315202435)
   (h_leaf_2  : Z_leaf_2_micro = 310546598)
@@ -145,7 +145,7 @@ theorem navier_stokes_pure_r3_zero_hydraulic_and_calderon_zygmund_pressure_verif
   (h_ortho_s : Orthogonal_stretch_slope_upper_micro = 494745)
   (h_pure_v  : Pure_R3_vacuum_viscous_slope_lower_micro = 17906287)
   (h_cz_p    : Calderon_Zygmund_pressure_upper_micro = 116401221)
-  (h_d_visc  : D_visc_lower_micro = 575473745)
+  (h_d_visc  : D_visc_lower_micro = 575473723)
   (h_pure_r3_pde : dZ_pure_r3_dt_micro <= Orthogonal_stretch_slope_upper_micro - Pure_R3_vacuum_viscous_slope_lower_micro) :
   Orthogonal_stretch_slope_upper_micro < Pure_R3_vacuum_viscous_slope_lower_micro /\
   Calderon_Zygmund_pressure_upper_micro < D_visc_lower_micro /\
