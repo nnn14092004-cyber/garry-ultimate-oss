@@ -45,3 +45,5 @@ lean_lib SupercriticalBoundaryAuditTorus3D where
 lean_lib HigherSobolevBootstrapTorus3D where
 
 lean_lib SmoothClassicalSynthesisTorus3D where
+
+lean_lib EnstrophyBasinTorus3D where
