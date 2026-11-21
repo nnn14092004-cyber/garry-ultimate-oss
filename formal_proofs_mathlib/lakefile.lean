@@ -47,3 +47,7 @@ lean_lib HigherSobolevBootstrapTorus3D where
 lean_lib SmoothClassicalSynthesisTorus3D where
 
 lean_lib EnstrophyBasinTorus3D where
+
+lean_lib CriticalProdiSerrinTorus3D where
+
+lean_lib GarryWaterfallCertificateTorus3D where
