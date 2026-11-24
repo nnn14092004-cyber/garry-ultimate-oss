@@ -102,13 +102,62 @@ fi
 echo "================================================================================"
 echo " [8/8] Static sorry/axiom scan & SHA-256 manifest verification"
 echo "================================================================================"
-if grep -rnE '^\s*(private\s+)?axiom\b|\b(sorry|sorryAx|admit)\b' \
-    formal_proofs_mathlib/*.lean garry_workspace/solutions/*.lean; then
-    echo "ERROR: Prohibited sorry/admit/axiom token detected." >&2
-    exit 1
-else
-    echo " -> Static scan clean: 0 sorry, 0 sorryAx, 0 admit, 0 custom axioms."
-fi
+PY=""
+for cand in python3 python; do
+    if command -v "$cand" >/dev/null 2>&1 && "$cand" -c "import sys" >/dev/null 2>&1; then
+        PY="$cand"
+        break
+    fi
+done
+"$PY" - <<'PY'
+import glob, re, sys
+
+def strip_lean(src: str) -> str:
+    out, i, n, depth, in_str = [], 0, len(src), 0, False
+    while i < n:
+        ch = src[i]
+        nxt = src[i + 1] if i + 1 < n else ""
+        if depth > 0:
+            if ch == "/" and nxt == "-":
+                depth += 1; out.append("  "); i += 2
+            elif ch == "-" and nxt == "/":
+                depth -= 1; out.append("  "); i += 2
+            else:
+                out.append("\n" if ch == "\n" else " "); i += 1
+        elif in_str:
+            if ch == "\\" and i + 1 < n:
+                out.append("  "); i += 2
+            elif ch == '"':
+                in_str = False; out.append(" "); i += 1
+            else:
+                out.append("\n" if ch == "\n" else " "); i += 1
+        else:
+            if ch == "/" and nxt == "-":
+                depth = 1; out.append("  "); i += 2
+            elif ch == "-" and nxt == "-":
+                while i < n and src[i] != "\n":
+                    out.append(" "); i += 1
+            elif ch == '"':
+                in_str = True; out.append(" "); i += 1
+            else:
+                out.append(ch); i += 1
+    return "".join(out)
+
+pat = re.compile(r"(^\s*(?:private\s+|protected\s+)?axiom\b|\b(?:sorry|sorryAx|admit)\b)")
+hits = []
+for g in ("formal_proofs_mathlib/*.lean", "garry_workspace/solutions/*.lean"):
+    for path in sorted(glob.glob(g)):
+        raw = open(path, encoding="utf-8").read()
+        clean = strip_lean(raw)
+        raw_lines = raw.splitlines()
+        for idx, line in enumerate(clean.splitlines(), 1):
+            if pat.search(line):
+                hits.append(f"{path}:{idx}: {raw_lines[idx - 1]}")
+if hits:
+    print("\n".join(hits), file=sys.stderr)
+    sys.exit(1)
+print(" -> Static scan clean: 0 executable sorry, 0 sorryAx, 0 admit, 0 custom axioms.")
+PY
 
 if [ -f SHA256SUMS.txt ] && command -v sha256sum >/dev/null 2>&1; then
     sha256sum -c SHA256SUMS.txt --quiet
