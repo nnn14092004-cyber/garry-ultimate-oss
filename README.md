@@ -1134,7 +1134,7 @@ Formal derivations, the 463-declaration Lean 4 axiom manifest, adversarial falsi
 ```text
 Nguyen, N. N. (2026). garry-ultimate-oss: Pure-Rust O(1) Interval SMT Kernel and Dual-Domain Lean 4 / Mathlib4 Formalization of the 3D Incompressible Navier-Stokes Equations on T^3 and R^3 (Version 4.0.0) [Computer software]. Zenodo Concept DOI: https://doi.org/10.5281/zenodo.24252962 (v3.0.0 DOI: https://doi.org/10.5281/zenodo.24344944; v2.0.0 DOI: https://doi.org/10.5281/zenodo.24311836; SWHID: swh:1:dir:7049b138801f45f234580b17041ea08ed910428d)
 
-Nguyen, N. N. (2026). A Pure-Rust O(1) Interval SMT Verifier and Dual-Domain Lean 4 / Mathlib4 Formalization of the 3D Incompressible Navier-Stokes Equations on T^3 and R^3 (Version 4.0.0) [Preprint]. Zenodo Concept DOI: https://doi.org/10.5281/zenodo.24267996 (v4.0.0 DOI: https://doi.org/10.5281/zenodo.24502746; v3.0.0 DOI: https://doi.org/10.5281/zenodo.24346364)
+Nguyen, N. N. (2026). A Pure-Rust O(1) Interval SMT Verifier and Dual-Domain Lean 4 / Mathlib4 Formalization of the 3D Incompressible Navier-Stokes Equations on T^3 and R^3 (Version 4.0.0) [Preprint]. Zenodo Concept DOI: https://doi.org/10.5281/zenodo.24267995 (v4.0.0 DOI: https://doi.org/10.5281/zenodo.24502746; v3.0.0 DOI: https://doi.org/10.5281/zenodo.24346364)
 ```
 
 ---

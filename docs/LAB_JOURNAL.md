@@ -23,7 +23,7 @@ This document records the chronological engineering logs, 10-kernel unification 
 ---
 
 ### Log: 16/11/26 – 17/11/26 || ARCHIVAL (ZENODO & SOFTWARE HERITAGE SWHID) & RELEASE `v2.0.0`
-* `[x]` **Zenodo DOIs Assigned:** Software Concept DOI `10.5281/zenodo.24252962` (v2.0.0: `10.5281/zenodo.24311836`); Preprint Concept DOI `10.5281/zenodo.24267996`.
+* `[x]` **Zenodo DOIs Assigned:** Software Concept DOI `10.5281/zenodo.24252962` (v2.0.0: `10.5281/zenodo.24311836`); Preprint Concept DOI `10.5281/zenodo.24267995`.
 * `[x]` **Software Heritage Archive Locked:** Directory SWHID `swh:1:dir:7049b138801f45f234580b17041ea08ed910428d`.
 * `[x]` **Adversarial Falsification & Dual-Tier Lean 4 Audit (`v2.0.0`):** Established 1-micro-unit coercivity falsification (`ADV-01`–`ADV-05`) and initial 10-theorem `Mathlib4` formalization.
 
