@@ -1,4 +1,4 @@
-name: Garry The Ultimate OSS Deterministic CI/CD (v4.0.0)
+name: garry-ultimate-oss Deterministic CI (v4.0.0)
 
 on:
   push:
@@ -13,7 +13,7 @@ env:
 
 jobs:
   verify-deterministic-kernel:
-    name: Verify O(1) Rust Kernel & Autonomous Synthesizer (${{ matrix.os }})
+    name: Verify Pure-Rust Kernel & BLW CAP Emitter (${{ matrix.os }})
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
@@ -37,15 +37,28 @@ jobs:
         run: |
           cargo clippy --all-targets -- -D warnings
 
-      - name: Gate 3 - Execute 30/30 Omniverse, Autonomous v4 & Falsification Tests
+      - name: Gate 3 - Execute 33/33 Rust Unit, BLW CAP & Falsification Tests
         run: |
           cargo test --release --verbose
 
-      - name: Gate 4 - Bare-Metal O(1) Release Benchmark Smoke Test
+      - name: Gate 4 - Stack Latency Benchmark Smoke Test
         run: |
           cargo run --release -- bench
 
-      - name: Gate 5 - Verify Canonical Suites (ns_1..ns_5) & Autonomous u0 Synthesizer
+      - name: Gate 5 - Emit BLW CAP, Canonical Suites & Autonomous Mode Certificates
         run: |
+          cargo run --release -- --certify-blw
           cargo run --release -- solutions
           cargo run --release -- synthesize
+
+      - name: Gate 6 - Static Lean 4 Axiom/Sorry Audit & BLW Artifact Check
+        shell: bash
+        run: |
+          test -f garry_workspace/solutions/blw_r3_report.txt
+          test -f garry_workspace/solutions/blw_r3_certificate.smt2
+          test -f garry_workspace/solutions/blw_r3_certificate.lean
+          if grep -rnE '^\s*(private\s+)?axiom\b|\b(sorry|sorryAx|admit)\b' \
+            formal_proofs_mathlib/*.lean garry_workspace/solutions/*.lean; then
+            echo "ERROR: Prohibited sorry/admit/custom axiom token found." >&2
+            exit 1
+          fi

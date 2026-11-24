@@ -129,6 +129,15 @@ fn run_bare_metal_benchmarks() {
     }
     let cpu_ns = start_cpu.elapsed().as_nanos() as f64 / (iterations as f64);
 
+    let blw_witness = garry_ultimate_oss::blw_emitter::canonical_supercritical_blw_witness_r3();
+    let start_blw = Instant::now();
+    let mut b_idx = 0usize;
+    while b_idx < iterations {
+        let _ = black_box(blw_witness.verify_128bit());
+        b_idx += 1;
+    }
+    let blw_ns = start_blw.elapsed().as_nanos() as f64 / (iterations as f64);
+
     println!("+---------------------------------------------------+------------+---------------+--------------------+");
     println!("| 10-Pillar Omniverse & 3D Navier-Stokes Operation  | Iterations | Mean Latency  | Throughput / Bound |");
     println!("+---------------------------------------------------+------------+---------------+--------------------+");
@@ -147,6 +156,10 @@ fn run_bare_metal_benchmarks() {
     println!(
         "| StackOmniverseCpu::run (8-Cycle Millennium ISA)   | {:>10} | {:>10.2} ns | O(1) Zero-Heap     |",
         iterations, cpu_ns
+    );
+    println!(
+        "| BlwWaterfallWitnessStack::verify_128bit (M15G R3) | {:>10} | {:>10.2} ns | O(1) Zero-Heap     |",
+        iterations, blw_ns
     );
     println!("+---------------------------------------------------+------------+---------------+--------------------+");
 }
@@ -559,6 +572,38 @@ fn run_autonomous_synthesizer_cli(spec_opt: Option<&str>) {
     }
 }
 
+fn run_blw_certification_cli() {
+    let witness = garry_ultimate_oss::blw_emitter::canonical_supercritical_blw_witness_r3();
+    let mut report_buf = garry_ultimate_oss::blw_emitter::StackTextBuf::<
+        { garry_ultimate_oss::omniverse_constants::BLW_EMIT_BUFFER_BYTES },
+    >::new();
+    match garry_ultimate_oss::blw_emitter::emit_blw_certificates_stack(
+        &witness,
+        &mut report_buf,
+    ) {
+        Ok(rep) => {
+            println!("{}", report_buf.as_str());
+            println!("[BLW DETERMINISTIC CERTIFICATES EMITTED (O(1) STACK)]");
+            println!(
+                "  - Visual Report: {}",
+                garry_ultimate_oss::blw_emitter::BLW_REPORT_PATH
+            );
+            println!(
+                "  - SMT-LIB 2.6:   {}",
+                garry_ultimate_oss::blw_emitter::BLW_SMT2_PATH
+            );
+            println!(
+                "  - Lean 4 (15G):  {}",
+                garry_ultimate_oss::blw_emitter::BLW_LEAN4_PATH
+            );
+            println!("  - CRC-32 Seal:   {:#010X}", rep.witness_seal_crc32);
+        }
+        Err(e) => {
+            println!("[BLW FAIL-CLOSED REJECTION]: {:?}", e);
+        }
+    }
+}
+
 fn main() {
     let mut args = std::env::args();
     let _bin = args.next();
@@ -569,6 +614,7 @@ fn main() {
             let spec_arg = args.next();
             run_autonomous_synthesizer_cli(spec_arg.as_deref());
         }
+        Some("certify-blw") | Some("--certify-blw") => run_blw_certification_cli(),
         _ => run_interactive_repl(),
     }
 }

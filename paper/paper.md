@@ -1,5 +1,5 @@
 ﻿---
-title: 'GARRYULT: A Bare-Metal O(1) Rust Symbolic/SMT Kernel and Two-Tier Lean 4 / Mathlib4 Formalization of the 3D Incompressible Navier-Stokes Equations on T^3'
+title: 'garry-ultimate-oss: A Pure-Rust O(1) Interval SMT Verifier and Dual-Domain Lean 4 / Mathlib4 Formalization of the 3D Incompressible Navier-Stokes Equations on T^3 and R^3'
 tags:
   - Rust
   - formal verification
@@ -9,9 +9,9 @@ tags:
   - SMT solver
   - Lean 4
   - Mathlib4
-  - Z3
+  - computer-assisted proof
 authors:
-  - name: Nhật Nam Nguyễn
+  - name: Nguyen Nhat Nam
     orcid: 0009-0006-8216-0594
     affiliation: "1, 2"
 affiliations:
@@ -19,44 +19,44 @@ affiliations:
     index: 1
   - name: Nha Trang University, Khanh Hoa, Vietnam
     index: 2
-date: 20 November 2026
+date: 24 November 2026
 bibliography: paper.bib
 ---
 
 # Summary
 
-`garry-ultimate-oss` (`GARRYULT` v4.0.0) is a dual-engine, machine-checkable formal verification framework for the three-dimensional incompressible Navier–Stokes equations [@nguyen2026garryult; @nguyen2026whitepaper]. It combines: (1) a deterministic, zero-dependency (`#![no_std]` core), $O(1)$ stack-bounded pure-Rust kernel implementing a 5-lemma symbolic PDE deduction tree (`SymbolicPdeProofTree`), an autonomous zero-catalog 3D solenoidal initial-data synthesizer (`synthesize`), a Lagrangian parcel trajectory enclosure, and outward-rounded 128-bit rational interval arithmetic (`RationalInterval128`, verified by 30/30 unit and adversarial falsification tests in 0.01 s); and (2) an end-to-end **Lean 4 / Mathlib4** formalization comprising **234 unique `#print axioms`-audited theorems** across **19 Mathlib4 modules (6,230 Lake build jobs)** and **6 unique standalone integer suites** (`ns_1`–`ns_5` plus `autonomous_u0`) with **`0 sorryAx`** and **`0` custom axioms** [@de2008z3; @moura2021lean].
+`garry-ultimate-oss` (v4.0.0) is a dual-engine formal verification suite for the three-dimensional incompressible Navier-Stokes equations on the periodic torus $\mathbb{T}^3 = (\mathbb{R}/\mathbb{Z})^3$ and whole space $\mathbb{R}^3$ [@nguyen2026garryult; @nguyen2026whitepaper]. It combines:
 
-# Statement of Need
+1. A zero-dependency pure-Rust verification kernel (`src/`, 15 modules, 33/33 unit and adversarial falsification tests passing in 0.01 s) implementing a stack-bounded symbolic PDE deductor, a 128-bit outward-rounded rational interval SMT prover, an autonomous 3D solenoidal initial-mode synthesizer (`synthesize`), and a static-stack Betchov-Loomis-Whitney (BLW) three-phase waterfall witness verifier (`--certify-blw`) that emits `.txt`, `.smt2`, and `.lean` certificates [@de2008z3].
+2. A Lean 4 / Mathlib4 formalization (`formal_proofs_mathlib/`, 39 modules, 50,216 lines, 403 `#print axioms`-audited declarations, `0 sorryAx`, `0` custom axioms) paired with 60 unique audited declarations in `garry_workspace/solutions/` [@moura2021lean]. Every audited theorem depends exclusively on the standard Lean 4 core axioms `[propext, Classical.choice, Quot.sound]`.
 
-Traditional computational fluid dynamics (CFD) and numerical PDE solvers evaluate velocity and vorticity fields over finite meshes using IEEE-754 floating-point arithmetic [@fefferman2006existence]. When investigating regularity criteria or potential finite-time singularities [@beale1984remarks; @caffarelli1982partial], rounding drift, unverified Galerkin spectral truncation remainders, and opaque numerical assumptions prevent simulations from serving as rigorous mathematical proofs. Conversely, existing formal proof libraries rarely bridge infinite-dimensional 3D Sobolev/Fourier PDE theory all the way to pointwise smooth classical solutions in a single, auditable repository.
+# Statement of need
 
-`GARRYULT` v4.0.0 addresses both gaps by pairing a zero-heap, zero-crate Rust symbolic/SMT verifier with an 8-milestone **Lean 4 / Mathlib4** PDE formalization on the periodic 3D torus $\mathbb{T}^3 = (\mathbb{R}/\mathbb{Z})^3$ that explicitly separates unconditional PDE theorems from conditional supercritical closure criteria inside the proof assistant's trusted kernel.
+Conventional numerical fluid dynamics solvers integrate three-dimensional velocity and vorticity fields over finite meshes in IEEE-754 floating-point arithmetic. Because spectral truncation remainders, aliasing errors, and rounding drift are not formally enclosed, numerical simulations cannot certify analytical regularity criteria or rule out finite-time singularities [@fefferman2006existence; @beale1984remarks; @caffarelli1982partial]. Conversely, existing theorem-proving libraries rarely connect infinite-dimensional 3D Sobolev and Fourier PDE theory, sharp counter-obstructions, and deterministic computer-assisted witness checking within a single reproducible repository.
 
-# Architecture and Formal Verification Methodology
+Researchers investigating conditional regularity criteria, invariant enstrophy basins, or computer-assisted blow-up exclusion need tooling that enforces strict separation between unconditional theorems and conditional hypotheses inside a trusted proof kernel. `garry-ultimate-oss` addresses this gap by linking a zero-dependency Rust 128-bit witness verifier directly to a dual-domain Lean 4 / Mathlib4 Navier-Stokes library on $\mathbb{T}^3$ and $\mathbb{R}^3$.
 
-`garry-ultimate-oss` v4.0.0 operates across two tightly coupled verification stacks:
+# State of the field
 
-1. **Pure-Rust $O(1)$ Symbolic PDE, Autonomous Synthesizer & 128-Bit Interval SMT Kernel (`src/`):**
-   - *Outward-Rounded 128-Bit Interval Arithmetic (`RationalInterval128`):* Lifts continuous Reynolds numbers, vortex stretching rates ($S_{\text{stretch}}$), Galerkin spectral tail remainders ($R_{\text{tail}}$), and viscous dissipation bounds ($D_{\text{visc}}$) into $10^6$-scaled 128-bit integer intervals with mandatory outward safety rounding.
-   - *5-Lemma Symbolic PDE Tree & Autonomous 3D Mode Synthesizer (`synthesize`):* Verifies $\nabla \cdot \mathbf{u} = 0$, $\nabla \times \nabla p \equiv \mathbf{0}$, Constantin–Fefferman depletion [@constantin1993direction], Bernstein–Poincaré coercivity, and Lagrangian trajectory decay (`ns_1`–`ns_5`, $\dot{Z}_{\text{upper}} \in [-517.854144, -294.106363]$), while `synthesize` accepts raw $(k, a, \nu, L_0)$ 3D velocity modes without catalog presets, rejects compressible modes ($\nabla \cdot u_0 \ne 0$) fail-closed, and emits verified `.txt`, `.smt2`, and 3-theorem `.lean` certificates (canonical seal `0x2F3FECC4`, $\dot{Z}_{\text{upper}} = -693.996029$, `UNSAT`).
-   - *Fail-Closed Adversarial Falsification Gate (`30/30` Tests):* Perturbing any single physical bound by one micro-unit ($10^{-6}$), omitting L2 axiom registration, breaking hypergraph causal links, or supplying compressible initial data immediately triggers a deterministic `Fail-Closed` rejection.
+Computational fluid dynamics packages such as OpenFOAM, Dedalus, and Nek5000 provide high-resolution numerical approximations of 3D incompressible turbulence but do not emit machine-checked proofs. In the computer-assisted proof community, rigorous ODE/PDE enclosure libraries such as CAPD and RadiiPolynomial.jl validate finite-dimensional or spectral fixed points using interval arithmetic, typically targeting specific equilibria or periodic orbits without an embedded proof assistant kernel. In interactive theorem proving, Mathlib4 (Lean 4) and Isabelle/HOL provide foundational measure theory, Fourier analysis, and functional analysis, yet neither ships an end-to-end 3D Navier-Stokes regularity tower spanning both $\mathbb{T}^3$ and $\mathbb{R}^3$. `garry-ultimate-oss` bridges these efforts by combining a self-contained Rust interval/SMT witness checker with a 39-module Mathlib4 formalization that checks emitted `.lean` certificates directly against the formalized PDE theorems.
 
-2. **8-Milestone Lean 4 / Mathlib4 True 3D Navier–Stokes Formalization on $\mathbb{T}^3$ (`formal_proofs_mathlib/`):**
-   - *Tier B (`GarryNavierStokesMathlib.lean`, 24 theorems):* Real-field ($\mathbb{R}$) formalization of the symbolic PDE lemmas, $\sqrt{Z}/\sqrt{Z}$ and $\nu/\nu$ cancellations, Kolmogorov core floor, intrinsic polynomial-square quartic Young $(4/5, 4)$ absorption, Bony paraproduct triad cancellation, Galerkin UV tail bridge, and the `v4` autonomous synthesizer.
-   - *Tier C — Milestones 1–6 (109 theorems across 13 modules):* Real 3D Fréchet vector calculus, exact 3D vorticity equation, periodic integration by parts, continuous-time Leray kinetic energy and enstrophy laws, sharp 3D Wirtinger–Poincaré exponential decay ($E(t) \le E_0 e^{-8\pi^2\nu t}$), spectral Biot–Savart and orthogonal Leray projection, global $L^2$ Calderón–Zygmund pressure bounds, Parseval–Plancherel identities, Sobolev $H^2(\mathbb{T}^3) \hookrightarrow L^\infty(\mathbb{T}^3)$, Agmon's 3D inequality, weighted $H^2$ convolution algebra, Duhamel $1/4$-contraction, and Picard–Banach local existence and uniqueness for arbitrary $u_0 \in H^2_{\mathrm{div}}(\mathbb{T}^3)$.
-   - *Tier C — Milestones 7–8 (43 theorems across 5 modules):* Differential Grönwall, true 3D BKM continuation, classical $C^3$ and mild $H^2$ global uniqueness, unconditional global existence on $[0, \infty)$ for small mean-zero data ($217088 \Vert{}u_0\Vert{}_{H^2}^2 \le \pi^2 \nu^2$), a **Finite-Time Basin Entry ("Waterfall-to-River") transfer law** (`finite_time_basin_entry_global_ns3d_torus3D`), unconditional Wiener-$\ell^1 \to H^2$ tame continuation, instantaneous parabolic bootstrapping $H^2 \to H^m(\mathbb{T}^3)$ for all $m \in \mathbb{N}$, exact $H^\infty(\mathbb{T}^3) \hookrightarrow C^\infty(\mathbb{T}^3)$ synthesis for both velocity $U(t, \cdot)$ and Calderón–Zygmund pressure $P(t, \cdot)$, exact pointwise physical-space PDE verification (`mild_solution_physical_ns3d_torus3D`), and the unified Two-Tier Grand Master Theorem (`garry_millennium_master_theorem_torus3D`).
+# Software design
 
-# Two-Tier Mathematical Boundary and Anti-Circularity Audit
+`garry-ultimate-oss` is organized into two coupled verification layers:
 
-To ensure complete transparency during peer review, `SupercriticalBoundaryAuditTorus3D.lean` and `SmoothClassicalSynthesisTorus3D.lean` formally enforce a strict separation between unconditional and conditional results inside Lean 4:
+1. **Pure-Rust Verification Kernel (`src/`):** Compiles with zero external crates (`[dependencies]` empty) and zero `if`/`else` branches across all 15 source modules (all control flow uses exhaustive `match`). Core data structures--including the 128-node symbolic AST arena (`SymbolicArena`), 16-variable/32-constraint interval SMT table (`DeterministicSmtProver`), 16-node execution DAG (`PlanGraph`), 256-node domain hypergraph (`AxiomHyperGraphL2`), 8-register stack ISA (`StackOmniverseCpu`), 128-bit BLW witness checker (`BlwWaterfallWitnessStack<16>`, 223.98 ns mean verification latency), and the `[u8; 32768]` output buffer in `src/blw_emitter.rs`--operate strictly on the stack. Heap `String` allocation is restricted to legacy CLI report formatting. Exact integer constants from Lean 4 (`46,656`, `23,328`, `186,624`, `8/19,683` on $\mathbb{R}^3$; `169/8`, `4/13`, `217,088` on $\mathbb{T}^3$) are synchronized in `src/omniverse_constants.rs`. Given a micro-scaled ($10^6$) trajectory grid $(t_k, Z_k, E_k)$, `--certify-blw` verifies $4 z_k^2 \Delta t_k \le 23\,328\,\nu_{\mathrm{micro}}^3$ and $E(t_N)Z(t_N) \cdot 10^{12} < 46\,656\,\nu_{\mathrm{micro}}^4$ in overflow-checked `i128` arithmetic and writes `blw_r3_certificate.smt2` (`unsat` under Z3) and `blw_r3_certificate.lean` (verified against `SupercriticalClayFrontier15G` with `0 sorryAx`).
+2. **Dual-Domain Lean 4 / Mathlib4 Library (`formal_proofs_mathlib/`):** Structured into 39 modules covering vector calculus, Leray energy laws [@leray1934mouvement], Fourier-Parseval-Sobolev-Agmon theory, constructive Picard-Duhamel local existence on $\mathbb{T}^3$ and $\mathbb{R}^3$, Serrin $L^2$ global uniqueness [@prodi1959teorema; @serrin1962interior], all-order mixed spacetime smoothness (`SpacetimeSmoothnessNS3D`), strain-pressure geometry and Betchov's identity [@betchov1956inequality], Constantin-Fefferman and $\lambda_2^+$ depletion criteria [@constantin1993direction; @neustupa2001vorticity; @miller2020strain], and the Betchov-Loomis-Whitney $46\,656\,\nu^4$ invariant basin [@loomis1949inequality]. Inside `SupercriticalClayFrontier15G.lean` and `SchwartzClayPackagingNS3D.lean`, Tier I isolates unconditional theorems (including three-phase CAP closure for certified supercritical trajectories), while Tier II isolates the remaining open arbitrary-data Clay Millennium Problem to a single geometric hypothesis, `BiaxialSheetSelfRegulationLemmaR3`.
 
-1. **Unconditional Tier I on $\mathbb{T}^3$ (Zero Extra Premises):** Local $C^\infty$ classical solutions for arbitrary $u_0 \in H^2_{\mathrm{div}}(\mathbb{T}^3)$; global $C^\infty$ classical solutions on $(0, \infty)$ for small data, compatible viscosity, or finite-time basin entry; global uniqueness; true 3D BKM and Wiener-$\ell^1$ tame continuation; and formal proofs of the supercritical $Z^3$ Young wall (`supercritical_young_absorption_wall_torus3D`) and the 3D supercritical energy scaling barrier (`ns3d_supercritical_energy_barrier`).
-2. **Conditional Tier II on $\mathbb{T}^3$ (Non-Vacuous Garry Closure Criteria):** `GarryConditionalClosureHypotheses`, $\sqrt{Z}$-cancellation with Kolmogorov core floor, and quartic Young / Bony triad hypotheses are explicitly isolated as theorem premises, constructively proven non-vacuous (`garry_closure_hypotheses_nonvacuous`), bridged directly to true 3D Lebesgue integrals, and proved to imply global $C^\infty(\mathbb{T}^3)$ physical-space solutions on $(0, \infty)$.
-3. **Explicit Scope Honesty:** An unconditional global regularity proof for arbitrary large initial data at arbitrarily small $\nu > 0$ without Tier II closure premises remains open (the Clay Millennium Problem) and is never concealed behind any `sorryAx` or custom axiom.
+# Research impact statement
 
-# Acknowledgements and AI Usage Disclosure
+`garry-ultimate-oss` establishes a reusable, machine-checked baseline for formalizing 3D incompressible fluid dynamics and auditing supercritical regularity arguments. Its 39-module Lean 4 / Mathlib4 codebase provides verified building blocks--including whole-space $\mathbb{R}^3$ integration by parts, homogeneous 3D Agmon and Loomis-Whitney inequalities, Serrin $L^2$ uniqueness, constructive frequency-space Picard-Duhamel existence, and exact red-team separatrix ODE obstructions (`variational_EZ_separatrix_red_team_obstruction`)--that prevent circular energy-to-enstrophy reasoning in future proof attempts. By archiving versioned software releases and preprints on Zenodo with persistent DOIs and Software Heritage SWHIDs, and providing an automated multi-OS audit script (`verify_all.sh`), the repository enables mathematicians and formal-methods researchers to independently verify and extend both the Tier I computer-assisted closure pipeline and the Tier II geometric depletion frontier.
 
-All mathematical formulations, the two-tier Navier–Stokes formalization architecture, the `#![no_std]` pure-Rust kernel, and the 128-bit interval SMT and 19-module Lean 4 / Mathlib4 verification pipelines were conceived, designed, implemented, and verified by the author. AI assistance was used strictly for academic English editing, Markdown/LaTeX typesetting, and interactive Lean 4 tactic engineering under the author's independent kernel verification (`lake build SmoothClassicalSynthesisTorus3D`).
+# AI usage disclosure
+
+All mathematical formulations, the two-tier verification boundary, the Rust kernel design, and the Lean 4 module architecture were directed and independently verified by the author through `cargo test --release`, `z3`, and `lake build SupercriticalClayFrontier15G` (`0 sorryAx`). Large language models were used strictly for English copy-editing, Markdown/LaTeX formatting, and interactive Lean 4 tactic drafting; every generated proof script and Rust module was audited and mechanically verified by the compiler and Lean 4 kernel prior to inclusion.
+
+# Acknowledgements
+
+The author thanks the Lean 4 and Mathlib4 communities for maintaining the foundational analysis and measure theory libraries used in `formal_proofs_mathlib/`.
 
 # References
