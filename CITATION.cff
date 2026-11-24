@@ -1,8 +1,8 @@
 cff-version: 1.2.0
-message: "If you use Garry The Ultimate OSS or its 8-Milestone Lean 4 / Mathlib4 3D Navier-Stokes formalization in your research, please cite it using the metadata below."
-title: "Garry The Ultimate OSS: Bare-Metal O(1) Symbolic PDE, 128-Bit Interval SMT & Two-Tier Lean 4 / Mathlib4 3D Navier-Stokes Formalization on T^3"
+message: "If you use garry-ultimate-oss or its Lean 4 / Mathlib4 3D Navier-Stokes formalization, cite it using the metadata below."
+title: "garry-ultimate-oss: Pure-Rust O(1) Interval SMT Kernel and Dual-Domain Lean 4 / Mathlib4 Formalization of the 3D Incompressible Navier-Stokes Equations on T^3 and R^3"
 version: 4.0.0
-date-released: 2026-11-20
+date-released: 2026-11-24
 doi: "10.5281/zenodo.24252962"
 url: "https://doi.org/10.5281/zenodo.24252962"
 repository-code: "https://github.com/nnn14092004-cyber/garry-ultimate-oss"
@@ -15,11 +15,10 @@ authors:
 keywords:
   - "navier-stokes"
   - "partial-differential-equations"
-  - "automated-theorem-proving"
-  - "smt-solver"
-  - "interval-arithmetic"
   - "formal-verification"
-  - "rust"
-  - "no-std"
   - "lean4"
   - "mathlib4"
+  - "smt-solver"
+  - "interval-arithmetic"
+  - "computer-assisted-proof"
+  - "rust"

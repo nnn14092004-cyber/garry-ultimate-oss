@@ -1,6 +1,7 @@
 //! Fixed-stack 3D wireframe geometry builder and depth-shaded ASCII rasterizer for
 //! Taylor-Green vortex meshes, Arnold-Beltrami-Childress helical filaments,
-//! Kolmogorov cascade polytopes, and plunge-pool-to-tailwater flow domains.
+//! Kolmogorov cascade polytopes, plunge-pool-to-tailwater flow domains,
+//! and Milestone 15G BLW waterfall / biaxial strain spectrum projections.
 
 pub const MAX_CANVAS_WIDTH: usize = 80;
 pub const MAX_CANVAS_HEIGHT: usize = 24;
@@ -53,6 +54,8 @@ pub enum SpatialTopologyKind {
     VectorAndLine3D,
     AsymmetricPolytope,
     SpiderwebGeodesicMesh,
+    BlwWaterfallBasin3D,
+    BiaxialStrainSpectrum3D,
 }
 
 impl Default for SpatialTopologyKind {
@@ -85,6 +88,12 @@ impl SpatialTopologyKind {
             Self::SpiderwebGeodesicMesh => {
                 "3D Taylor-Green Solenoidal Vortex Tube Mesh & Beale-Kato-Majda Iso-Vorticity Cage"
             }
+            Self::BlwWaterfallBasin3D => {
+                "3D M15G Three-Phase BLW Waterfall Cascade -> Singularity Cage (T_trap/186,624) -> 46,656 nu^4 Basin -> O(1/t) River"
+            }
+            Self::BiaxialStrainSpectrum3D => {
+                "3D M14-M15G Trace-Free Strain Spectrum (lambda_1+lambda_2+lambda_3=0): Biaxial Sheet Cone (lambda_2>0) vs Tube Closure (lambda_2<=0)"
+            }
         }
     }
 }
@@ -98,6 +107,19 @@ fn has_exact_spatial_token(lower_text: &str, target: &str) -> bool {
 impl SpatialTopologyKind {
     pub fn from_query(text: &str) -> Self {
         let lower = text.to_lowercase();
+        let is_blw_3phase = has_exact_spatial_token(&lower, "blw_waterfall")
+            || has_exact_spatial_token(&lower, "m15g_waterfall")
+            || has_exact_spatial_token(&lower, "basin_46656");
+        let is_biaxial = has_exact_spatial_token(&lower, "biaxial_sheet")
+            || has_exact_spatial_token(&lower, "strain_spectrum")
+            || has_exact_spatial_token(&lower, "lambda2_cone");
+
+        match (is_blw_3phase, is_biaxial) {
+            (true, _) => return Self::BlwWaterfallBasin3D,
+            (false, true) => return Self::BiaxialStrainSpectrum3D,
+            (false, false) => {}
+        }
+
         let is_web = has_exact_spatial_token(&lower, "spiderweb")
             || has_exact_spatial_token(&lower, "taylor_green_mesh")
             || has_exact_spatial_token(&lower, "vortex_mesh")
@@ -161,6 +183,8 @@ impl SpatialWireframeBuilder {
             SpatialTopologyKind::VectorAndLine3D => Self::build_vector_and_line_3d(),
             SpatialTopologyKind::AsymmetricPolytope => Self::build_asymmetric_polytope(),
             SpatialTopologyKind::SpiderwebGeodesicMesh => Self::build_spiderweb_mesh(),
+            SpatialTopologyKind::BlwWaterfallBasin3D => Self::build_blw_waterfall_basin_3d(),
+            SpatialTopologyKind::BiaxialStrainSpectrum3D => Self::build_biaxial_strain_spectrum_3d(),
         }
     }
 
@@ -252,11 +276,9 @@ impl SpatialWireframeBuilder {
         let mut edges = [Self::DUMMY_LINE; MAX_WIREFRAME_EDGES];
         let core = Point3D::new(0.0, 0.0, 0.0);
 
-        // Solenoidal vorticity axis (2 edges)
         edges[0] = Line3D::new(Point3D::new(-1.65, 0.0, 0.0), core);
         edges[1] = Line3D::new(core, Point3D::new(1.65, 0.0, 0.0));
 
-        // Beltrami helical vortex filaments (6 edges)
         let f1 = Point3D::new(1.20, 1.35, 0.85);
         let f2 = Point3D::new(0.85, 1.45, -1.05);
         let f3 = Point3D::new(1.40, 0.90, -0.35);
@@ -270,7 +292,6 @@ impl SpatialWireframeBuilder {
         edges[6] = Line3D::new(core, f5);
         edges[7] = Line3D::new(core, f6);
 
-        // Biot-Savart circulation loops & Lamb-vector zero-crossings (7 edges -> total 15)
         edges[8] = Line3D::new(f1, f2);
         edges[9] = Line3D::new(f2, f3);
         edges[10] = Line3D::new(f3, f1);
@@ -287,13 +308,11 @@ impl SpatialWireframeBuilder {
         let mut edges = [Self::DUMMY_LINE; MAX_WIREFRAME_EDGES];
         let plunge_pool_throat = Point3D::new(0.0, 0.0, 0.0);
 
-        // High-head turbulent waterfall vortex chamber (left/upper lobe)
         let w_crest = Point3D::new(-1.60, 0.0, 0.0);
         let w_top = Point3D::new(-0.95, 1.15, 0.45);
         let w_bot = Point3D::new(-0.95, -1.15, -0.45);
         let w_front = Point3D::new(-0.95, -0.35, 1.15);
 
-        // Smooth laminar tailwater river outflow channel (right lobe)
         let r_outflow = Point3D::new(1.55, 0.0, 0.0);
         let r_top = Point3D::new(0.85, 0.85, -0.35);
         let r_bot = Point3D::new(0.85, -0.85, 0.35);
@@ -355,6 +374,103 @@ impl SpatialWireframeBuilder {
             r_idx += 1;
         }
         (edges, count)
+    }
+
+    /// M15G 3-Phase Closure Geometry (22 edges):
+    /// Left: Supercritical Waterfall Crest + Riccati Safe-Step Gates [0, t_N]
+    /// Center: Singularity Cage T_sep = T_trap/186,624 & 46,656 nu^4 Basin Throat
+    /// Right: Global Dissipative River Outflow Channel [t_N, infinity)
+    pub fn build_blw_waterfall_basin_3d() -> ([Line3D; MAX_WIREFRAME_EDGES], usize) {
+        let mut edges = [Self::DUMMY_LINE; MAX_WIREFRAME_EDGES];
+
+        let c0 = Point3D::new(-1.65, 1.35, -0.55);
+        let c1 = Point3D::new(-1.65, 1.35, 0.55);
+        let c2 = Point3D::new(-1.65, 0.55, 0.55);
+        let c3 = Point3D::new(-1.65, 0.55, -0.55);
+
+        let g0 = Point3D::new(-0.85, 0.75, -0.45);
+        let g1 = Point3D::new(-0.85, 0.75, 0.45);
+        let g2 = Point3D::new(-0.85, -0.05, 0.45);
+        let g3 = Point3D::new(-0.85, -0.05, -0.45);
+
+        let b0 = Point3D::new(0.0, 0.22, -0.22);
+        let b1 = Point3D::new(0.0, 0.22, 0.22);
+        let b2 = Point3D::new(0.0, -0.22, 0.22);
+        let b3 = Point3D::new(0.0, -0.22, -0.22);
+
+        let r0 = Point3D::new(1.65, -0.15, -0.45);
+        let r1 = Point3D::new(1.65, -0.15, 0.45);
+        let r2 = Point3D::new(1.65, -0.65, 0.45);
+        let r3 = Point3D::new(1.65, -0.65, -0.45);
+
+        edges[0] = Line3D::new(c0, c1);
+        edges[1] = Line3D::new(c1, c2);
+        edges[2] = Line3D::new(c2, c3);
+        edges[3] = Line3D::new(c3, c0);
+        edges[4] = Line3D::new(c0, g0);
+        edges[5] = Line3D::new(c1, g1);
+        edges[6] = Line3D::new(c2, g2);
+        edges[7] = Line3D::new(c3, g3);
+        edges[8] = Line3D::new(g0, b0);
+        edges[9] = Line3D::new(g1, b1);
+        edges[10] = Line3D::new(g2, b2);
+        edges[11] = Line3D::new(g3, b3);
+        edges[12] = Line3D::new(b0, b1);
+        edges[13] = Line3D::new(b1, b2);
+        edges[14] = Line3D::new(b2, b3);
+        edges[15] = Line3D::new(b3, b0);
+        edges[16] = Line3D::new(b0, r0);
+        edges[17] = Line3D::new(b1, r1);
+        edges[18] = Line3D::new(b2, r2);
+        edges[19] = Line3D::new(b3, r3);
+        edges[20] = Line3D::new(r0, r1);
+        edges[21] = Line3D::new(r2, r3);
+
+        (edges, 22)
+    }
+
+    /// M14A/M15C/M15G Trace-Free Strain Spectrum Geometry (20 edges):
+    /// Separates the Biaxial Sheet Blow-Up Cone (lambda_2 > 0, upper half)
+    /// from the Unconditional Tube Closure Half-Space (lambda_2 <= 0, lower half).
+    pub fn build_biaxial_strain_spectrum_3d() -> ([Line3D; MAX_WIREFRAME_EDGES], usize) {
+        let mut edges = [Self::DUMMY_LINE; MAX_WIREFRAME_EDGES];
+        let origin = Point3D::new(0.0, 0.0, 0.0);
+
+        let p0 = Point3D::new(1.30, 0.0, 0.0);
+        let p1 = Point3D::new(0.65, 0.0, 1.1258);
+        let p2 = Point3D::new(-0.65, 0.0, 1.1258);
+        let p3 = Point3D::new(-1.30, 0.0, 0.0);
+        let p4 = Point3D::new(-0.65, 0.0, -1.1258);
+        let p5 = Point3D::new(0.65, 0.0, -1.1258);
+
+        let apex_biaxial = Point3D::new(0.0, 1.45, 0.0);
+        let apex_tube = Point3D::new(0.0, -1.45, 0.0);
+
+        edges[0] = Line3D::new(p0, p1);
+        edges[1] = Line3D::new(p1, p2);
+        edges[2] = Line3D::new(p2, p3);
+        edges[3] = Line3D::new(p3, p4);
+        edges[4] = Line3D::new(p4, p5);
+        edges[5] = Line3D::new(p5, p0);
+
+        edges[6] = Line3D::new(apex_biaxial, p0);
+        edges[7] = Line3D::new(apex_biaxial, p1);
+        edges[8] = Line3D::new(apex_biaxial, p2);
+        edges[9] = Line3D::new(apex_biaxial, p3);
+        edges[10] = Line3D::new(apex_biaxial, p4);
+        edges[11] = Line3D::new(apex_biaxial, p5);
+
+        edges[12] = Line3D::new(apex_tube, p0);
+        edges[13] = Line3D::new(apex_tube, p1);
+        edges[14] = Line3D::new(apex_tube, p2);
+        edges[15] = Line3D::new(apex_tube, p3);
+        edges[16] = Line3D::new(apex_tube, p4);
+        edges[17] = Line3D::new(apex_tube, p5);
+
+        edges[18] = Line3D::new(origin, apex_biaxial);
+        edges[19] = Line3D::new(origin, apex_tube);
+
+        (edges, 20)
     }
 }
 
@@ -479,7 +595,24 @@ impl AsciiCanvas {
         }
     }
 
-    pub fn render_topology_3d(&mut self, kind: SpatialTopologyKind, yaw: f64, pitch: f64) -> String {
+    /// Zero-heap stack rasterizer writing directly into any `core::fmt::Write` target.
+    pub fn render_topology_3d_to_writer<W: core::fmt::Write>(
+        &mut self,
+        kind: SpatialTopologyKind,
+        yaw: f64,
+        pitch: f64,
+        out: &mut W,
+    ) {
+        let mut cr = 0usize;
+        while cr < self.height {
+            let mut cc = 0usize;
+            while cc < self.width {
+                self.buffer[cr][cc] = ' ';
+                cc += 1;
+            }
+            cr += 1;
+        }
+
         let (edges, count) = SpatialWireframeBuilder::build_topology(kind);
         let mut projected = [(
             Point2D::new(0.0, 0.0),
@@ -529,17 +662,21 @@ impl AsciiCanvas {
             k += 1;
         }
 
-        let mut out = String::with_capacity((self.width + 1) * self.height);
         let mut r = 0usize;
         while r < self.height {
             let mut c = 0usize;
             while c < self.width {
-                out.push(self.buffer[r][c]);
+                let _ = out.write_char(self.buffer[r][c]);
                 c += 1;
             }
-            out.push('\n');
+            let _ = out.write_char('\n');
             r += 1;
         }
+    }
+
+    pub fn render_topology_3d(&mut self, kind: SpatialTopologyKind, yaw: f64, pitch: f64) -> String {
+        let mut out = String::with_capacity((self.width + 1) * self.height);
+        self.render_topology_3d_to_writer(kind, yaw, pitch, &mut out);
         out
     }
 }
@@ -549,7 +686,7 @@ mod tests {
     use super::*;
 
     #[test]
-    fn test_all_seven_3d_omniverse_wireframe_topologies_are_distinct() {
+    fn test_all_nine_3d_omniverse_and_m15g_wireframe_topologies_are_distinct() {
         let (_, c_cube) = SpatialWireframeBuilder::build_topology(SpatialTopologyKind::UnitCube);
         let (_, c_tetra) =
             SpatialWireframeBuilder::build_topology(SpatialTopologyKind::Tetrahedron);
@@ -562,10 +699,14 @@ mod tests {
             SpatialWireframeBuilder::build_topology(SpatialTopologyKind::AsymmetricPolytope);
         let (_, c_web) =
             SpatialWireframeBuilder::build_topology(SpatialTopologyKind::SpiderwebGeodesicMesh);
+        let (_, c_blw) =
+            SpatialWireframeBuilder::build_topology(SpatialTopologyKind::BlwWaterfallBasin3D);
+        let (_, c_biax) =
+            SpatialWireframeBuilder::build_topology(SpatialTopologyKind::BiaxialStrainSpectrum3D);
 
         assert_eq!(
-            (c_cube, c_tetra, c_pyra, c_octa, c_vec, c_asym, c_web),
-            (12, 6, 8, 12, 15, 14, 32)
+            (c_cube, c_tetra, c_pyra, c_octa, c_vec, c_asym, c_web, c_blw, c_biax),
+            (12, 6, 8, 12, 15, 14, 32, 22, 20)
         );
         assert_eq!(
             SpatialTopologyKind::from_query("waterfall_river wireframe"),
@@ -574,6 +715,14 @@ mod tests {
         assert_eq!(
             SpatialTopologyKind::from_query("taylor_green_mesh wireframe"),
             SpatialTopologyKind::SpiderwebGeodesicMesh
+        );
+        assert_eq!(
+            SpatialTopologyKind::from_query("blw_waterfall wireframe"),
+            SpatialTopologyKind::BlwWaterfallBasin3D
+        );
+        assert_eq!(
+            SpatialTopologyKind::from_query("biaxial_sheet wireframe"),
+            SpatialTopologyKind::BiaxialStrainSpectrum3D
         );
     }
 }

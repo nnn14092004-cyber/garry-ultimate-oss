@@ -191,6 +191,46 @@ pub const OMNIVERSE_MANIFOLD_CATALOG: [OmniverseFlowManifoldSpec; 10] = [
     },
 ];
 
+// =============================================================================
+// MILESTONE 9 - 15G FORMAL LEAN 4 CONSTANTS (0 sorryAx, 1-to-1 Synchronized)
+// =============================================================================
+
+/// R^3 Betchov-Loomis-Whitney invariant basin constant: R_crit = 46,656 * nu^4
+pub const BLW_R_CRIT_NUMER_R3: i128 = 46_656;
+/// R^3 sharp Riccati cubic constant denominator: c_BLW(nu) = 1 / (23,328 * nu^3)
+pub const BLW_C_SHARP_DENOM_R3: i128 = 23_328;
+/// R^3 sharp singularity horizon divisor: T_sep = T_trap / 186,624
+pub const BLW_T_SEP_DIVISOR_R3: i128 = 186_624;
+/// Exact fourth power of C_BLW_R3: (C_BLW_R3)^4 = 8 / 19,683
+pub const BLW_CONST_POW4_NUMER_R3: i128 = 8;
+pub const BLW_CONST_POW4_DENOM_R3: i128 = 19_683;
+
+/// Exact Betchov biaxiality profile at theta = 1/2: betchovProfile(1/2) = 11 / 16
+pub const BETCHOV_PROFILE_HALF_NUMER: i128 = 11;
+pub const BETCHOV_PROFILE_HALF_DENOM: i128 = 16;
+/// Lower bound on amplified basin at theta = 1/2: > 208,000 * nu^4
+pub const BETCHOV_HALF_BASIN_FLOOR_R3: i128 = 208_000;
+
+/// Riccati safe-step inequality 2 * (1 / (23328 * nu^3)) * z_k^2 * dt_k <= 1 / 2
+/// <=> (BLW_SAFE_STEP_LHS_MULT) * z_k^2 * dt_k <= BLW_C_SHARP_DENOM_R3 * nu^3
+pub const BLW_SAFE_STEP_FACTOR_NUM: i128 = 2;
+pub const BLW_SAFE_STEP_RHS_DENOM: i128 = 2;
+pub const BLW_SAFE_STEP_LHS_MULT: i128 = BLW_SAFE_STEP_FACTOR_NUM * BLW_SAFE_STEP_RHS_DENOM;
+
+/// T^3 Milestone 9 exact constants: c_nu = 169 / (8 * pi^4 * nu^3), Z_crit = 4 * pi^3 * nu^2 / 13
+pub const TORUS3D_C_NU_NUMER: i128 = 169;
+pub const TORUS3D_C_NU_DENOM: i128 = 8;
+pub const TORUS3D_Z_CRIT_NUMER: i128 = 4;
+pub const TORUS3D_Z_CRIT_DENOM: i128 = 13;
+pub const TORUS3D_H2_SMALL_DATA_COEFF: i128 = 217_088;
+pub const TORUS3D_PALINSTROPHY_ENTRY_DENOM: i128 = 27_136;
+
+/// Static stack capacities for BLW deterministic witness verification & certificate emitter
+pub const BLW_MAX_WATERFALL_NODES: usize = 16;
+pub const BLW_EMIT_BUFFER_BYTES: usize = 32_768;
+pub const BLW_PLOT_WIDTH: usize = 73;
+pub const BLW_PLOT_HEIGHT: usize = 21;
+
 fn has_exact_manifold_token(lower_query: &str, token: &str) -> bool {
     lower_query
         .split(|c: char| !c.is_ascii_alphanumeric() && c != '_')

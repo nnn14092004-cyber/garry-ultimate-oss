@@ -6,6 +6,7 @@
 pub mod crc;
 pub mod ephemeral;
 pub mod hypergraph;
+pub mod blw_emitter;
 pub mod metering;
 pub mod omniverse_constants;
 pub mod omniverse_kinetics;
@@ -1771,6 +1772,193 @@ impl DeterministicEngine {
         let mut buf = [0u8; CHECKPOINT_SIZE];
         let _ = self.export_checkpoint(&mut buf);
         buf
+    }
+}
+
+use crate::omniverse_constants::{
+    BLW_C_SHARP_DENOM_R3, BLW_R_CRIT_NUMER_R3, BLW_SAFE_STEP_FACTOR_NUM, BLW_SAFE_STEP_LHS_MULT,
+};
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum BlwVerifyError {
+    InvalidViscosity,
+    InvalidStepCount,
+    NonZeroInitialTime,
+    EnergyOrderViolated,
+    NegativeStateCap,
+    NonMonotoneTimeGrid,
+    ArithmeticOverflow,
+    RiccatiSafeStepViolated { step_index: usize },
+    BasinCaptureNotReached,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub struct BlwVerificationReport {
+    pub verified: bool,
+    pub steps_verified: usize,
+    pub started_supercritical: bool,
+    pub terminal_time_micro: i128,
+    pub chain_budget_upper_micro: i128,
+    pub initial_ez_scaled_micro2: i128,
+    pub terminal_ez_scaled_micro2: i128,
+    pub basin_threshold_scaled_micro2: i128,
+    pub witness_seal_crc32: u32,
+}
+
+/// Static stack-allocated 128-bit witness mirroring Lean 4 `GarryBLWWaterfallWitnessR3`.
+/// All coordinates are micro-scaled integers (`value * 10^6`). Zero heap, zero `if`/`else`.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub struct BlwWaterfallWitnessStack<const N: usize> {
+    pub nu_micro: i128,
+    pub steps: usize,
+    pub t_grid_micro: [i128; N],
+    pub z_cap_micro: [i128; N],
+    pub e_grid_micro: [i128; N],
+}
+
+impl<const N: usize> BlwWaterfallWitnessStack<N> {
+    /// Verifies all structural invariants of `GarryBLWWaterfallWitnessR3` and the two exact
+    /// Milestone 15G inequalities in overflow-checked 128-bit integer arithmetic:
+    /// 1) `2 * c_BLW(nu) * z_k^2 * dt_k <= 1/2`  <=>  `4 * z_k^2 * dt_k <= 23_328 * nu^3`
+    /// 2) `E(t_N) * Z(t_N) < 46_656 * nu^4`      <=>  `E_N * Z_N * S^2 < 46_656 * nu^4`
+    pub fn verify_128bit(&self) -> Result<BlwVerificationReport, BlwVerifyError> {
+        match self.nu_micro > 0 {
+            true => {}
+            false => return Err(BlwVerifyError::InvalidViscosity),
+        }
+        match self.steps < N {
+            true => {}
+            false => return Err(BlwVerifyError::InvalidStepCount),
+        }
+        match self.t_grid_micro[0] == 0 {
+            true => {}
+            false => return Err(BlwVerifyError::NonZeroInitialTime),
+        }
+
+        let e_init = self.e_grid_micro[0];
+        let e_term = self.e_grid_micro[self.steps];
+        match e_init >= e_term && e_term >= 0 {
+            true => {}
+            false => return Err(BlwVerifyError::EnergyOrderViolated),
+        }
+
+        let nu2 = match self.nu_micro.checked_mul(self.nu_micro) {
+            Some(v) => v,
+            None => return Err(BlwVerifyError::ArithmeticOverflow),
+        };
+        let nu3 = match nu2.checked_mul(self.nu_micro) {
+            Some(v) => v,
+            None => return Err(BlwVerifyError::ArithmeticOverflow),
+        };
+        let nu4 = match nu3.checked_mul(self.nu_micro) {
+            Some(v) => v,
+            None => return Err(BlwVerifyError::ArithmeticOverflow),
+        };
+        let riccati_rhs = match BLW_C_SHARP_DENOM_R3.checked_mul(nu3) {
+            Some(v) => v,
+            None => return Err(BlwVerifyError::ArithmeticOverflow),
+        };
+        let basin_thresh = match BLW_R_CRIT_NUMER_R3.checked_mul(nu4) {
+            Some(v) => v,
+            None => return Err(BlwVerifyError::ArithmeticOverflow),
+        };
+        let scale2 = match RATIONAL_SCALE_MICRO.checked_mul(RATIONAL_SCALE_MICRO) {
+            Some(v) => v,
+            None => return Err(BlwVerifyError::ArithmeticOverflow),
+        };
+
+        let mut node_idx = 0usize;
+        while node_idx <= self.steps {
+            match self.z_cap_micro[node_idx] >= 0 && self.e_grid_micro[node_idx] >= 0 {
+                true => {}
+                false => return Err(BlwVerifyError::NegativeStateCap),
+            }
+            node_idx += 1;
+        }
+
+        let mut budget_upper_micro = 0i128;
+        let mut k = 0usize;
+        while k < self.steps {
+            let dt = match self.t_grid_micro[k + 1].checked_sub(self.t_grid_micro[k]) {
+                Some(v) => v,
+                None => return Err(BlwVerifyError::ArithmeticOverflow),
+            };
+            match dt >= 0 {
+                true => {}
+                false => return Err(BlwVerifyError::NonMonotoneTimeGrid),
+            }
+
+            let zk = self.z_cap_micro[k];
+            let zk2 = match zk.checked_mul(zk) {
+                Some(v) => v,
+                None => return Err(BlwVerifyError::ArithmeticOverflow),
+            };
+            let zk2_dt = match zk2.checked_mul(dt) {
+                Some(v) => v,
+                None => return Err(BlwVerifyError::ArithmeticOverflow),
+            };
+            let lhs = match BLW_SAFE_STEP_LHS_MULT.checked_mul(zk2_dt) {
+                Some(v) => v,
+                None => return Err(BlwVerifyError::ArithmeticOverflow),
+            };
+
+            match lhs <= riccati_rhs {
+                true => {}
+                false => return Err(BlwVerifyError::RiccatiSafeStepViolated { step_index: k }),
+            }
+
+            let step_budget_num = match BLW_SAFE_STEP_FACTOR_NUM.checked_mul(zk2_dt) {
+                Some(v) => v,
+                None => return Err(BlwVerifyError::ArithmeticOverflow),
+            };
+            let step_budget_ceil = (step_budget_num / scale2).saturating_add(1);
+            budget_upper_micro = budget_upper_micro.saturating_add(step_budget_ceil);
+            k += 1;
+        }
+
+        let ez_init_raw = match e_init.checked_mul(self.z_cap_micro[0]) {
+            Some(v) => v,
+            None => return Err(BlwVerifyError::ArithmeticOverflow),
+        };
+        let ez_init_scaled = match ez_init_raw.checked_mul(scale2) {
+            Some(v) => v,
+            None => return Err(BlwVerifyError::ArithmeticOverflow),
+        };
+
+        let ez_term_raw = match e_term.checked_mul(self.z_cap_micro[self.steps]) {
+            Some(v) => v,
+            None => return Err(BlwVerifyError::ArithmeticOverflow),
+        };
+        let ez_term_scaled = match ez_term_raw.checked_mul(scale2) {
+            Some(v) => v,
+            None => return Err(BlwVerifyError::ArithmeticOverflow),
+        };
+
+        match ez_term_scaled < basin_thresh {
+            true => {}
+            false => return Err(BlwVerifyError::BasinCaptureNotReached),
+        }
+
+        let mut seal = calculate_crc32(&self.nu_micro.to_le_bytes());
+        let mut s_idx = 0usize;
+        while s_idx <= self.steps {
+            seal = seal.rotate_left(5) ^ calculate_crc32(&self.t_grid_micro[s_idx].to_le_bytes());
+            seal = seal.rotate_left(3) ^ calculate_crc32(&self.z_cap_micro[s_idx].to_le_bytes());
+            seal = seal.rotate_left(7) ^ calculate_crc32(&self.e_grid_micro[s_idx].to_le_bytes());
+            s_idx += 1;
+        }
+
+        Ok(BlwVerificationReport {
+            verified: true,
+            steps_verified: self.steps,
+            started_supercritical: ez_init_scaled >= basin_thresh,
+            terminal_time_micro: self.t_grid_micro[self.steps],
+            chain_budget_upper_micro: budget_upper_micro,
+            initial_ez_scaled_micro2: ez_init_scaled,
+            terminal_ez_scaled_micro2: ez_term_scaled,
+            basin_threshold_scaled_micro2: basin_thresh,
+            witness_seal_crc32: seal,
+        })
     }
 }
 

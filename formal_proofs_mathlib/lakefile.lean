@@ -40,8 +40,50 @@ lean_lib GlobalRegularityCriteriaTorus3D where
 
 lean_lib GarrySupercriticalBridgeTorus3D where
 
+@[default_target]
 lean_lib SupercriticalBoundaryAuditTorus3D where
 
 lean_lib HigherSobolevBootstrapTorus3D where
 
 lean_lib SmoothClassicalSynthesisTorus3D where
+
+lean_lib EnstrophyBasinTorus3D where
+
+lean_lib CriticalProdiSerrinTorus3D where
+
+lean_lib GarryWaterfallCertificateTorus3D where
+
+lean_lib WholeSpaceR3Integral where
+
+lean_lib WholeSpaceR3Agmon where
+
+lean_lib WholeSpaceR3EnstrophyWaterfall where
+
+lean_lib GlobalUniquenessNS3D where
+
+lean_lib GlobalRegularityBootstrapNS3D where
+
+lean_lib TwoTierBoundaryAuditNS3D where
+
+lean_lib StrainPressureGeometryNS3D where
+
+lean_lib SupercriticalFrontierProbeNS3D where
+
+lean_lib HeatLerayMildNS3D where
+
+lean_lib ConcreteNS3DClosures where
+
+lean_lib ClassicalPDEBridgeNS3D where
+
+lean_lib GeometricDepletionCriteriaNS3D where
+
+lean_lib AdversarialSupercriticalLabNS3D where
+
+lean_lib WholeSpaceR3LocalExistence where
+
+lean_lib SpacetimeSmoothnessNS3D where
+
+lean_lib SchwartzClayPackagingNS3D where
+
+@[default_target]
+lean_lib SupercriticalClayFrontier15G where
