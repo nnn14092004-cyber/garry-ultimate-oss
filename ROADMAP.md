@@ -54,7 +54,7 @@ Through **Phases XI–XV (`v1.0.0` → `v4.0.0`)**, all ten kernels and their li
 
 ## Phase XII (`v2.0.0`): Adversarial Falsification Audit, Lean 4 Kernel Axiom Manifest & Archival — [COMPLETED]
 
-- **Zenodo & Software Heritage Archival:** Locked Software Concept DOI `10.5281/zenodo.24252962`, Preprint Concept DOI `10.5281/zenodo.24267996`, and SWHID `swh:1:dir:4ee205fa955cb5c4032e28d0786d6c50baff730f`.
+- **Zenodo & Software Heritage Archival:** Locked Software Concept DOI `10.5281/zenodo.24252962`, Preprint Concept DOI `10.5281/zenodo.24267996`, and SWHID `swh:1:dir:7049b138801f45f234580b17041ea08ed910428d`.
 - **Micro-Scaled Coercivity Falsification Gate (`docs/FALSIFICATION_LOG.md`):** Verified 1-unit ($10^{-6}$) boundary falsifiability (`ADV-01`–`ADV-05`).
 
 ---

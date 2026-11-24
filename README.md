@@ -5,9 +5,9 @@
 [![Rust Tests](https://img.shields.io/badge/Rust%20Tests-33%2F33%20Passed%20(0.01s)-orange?style=flat-square)](#verified-test-suite-benchmarks-and-blw-cap-certificates)
 [![Lean 4 / Mathlib4](https://img.shields.io/badge/Lean%204%20%2F%20Mathlib4-39%20Modules%20%7C%20463%20Audits%20%7C%200%20sorryAx-purple?style=flat-square)](#lean-4--mathlib4-module-map)
 [![ORCID](https://img.shields.io/badge/ORCID-0009--0006--8216--0594-a6ce39?style=flat-square)](https://orcid.org/0009-0006-8216-0594)
-[![Software Concept DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24252962.svg)](https://doi.org/10.5281/zenodo.24252962)
-[![Preprint Concept DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24267996.svg)](https://doi.org/10.5281/zenodo.24267996)
-[![SWH](https://archive.softwareheritage.org/badge/swh:1:dir:4ee205fa955cb5c4032e28d0786d6c50baff730f/)](https://archive.softwareheritage.org/swh:1:dir:4ee205fa955cb5c4032e28d0786d6c50baff730f;origin=https://github.com/nnn14092004-cyber/garry-ultimate-oss;visit=swh:1:snp:6dec155ed1210329b40a65cffa5d434b752ff73f;anchor=swh:1:rev:4d6a9f3271bb4e415412098bd266ef9e9cb14fd4)
+[![Software DOI](https://img.shields.io/badge/Software_DOI-10.5281%2Fzenodo.24506648-blue)](https://doi.org/10.5281/zenodo.24506648)
+[![Preprint DOI](https://img.shields.io/badge/Preprint_DOI-10.5281%2Fzenodo.24502746-blue)](https://doi.org/10.5281/zenodo.24502746)
+[![SWH](https://archive.softwareheritage.org/badge/swh:1:dir:7049b138801f45f234580b17041ea08ed910428d/)](https://archive.softwareheritage.org/swh:1:dir:7049b138801f45f234580b17041ea08ed910428d;origin=https://github.com/nnn14092004-cyber/garry-ultimate-oss;visit=swh:1:snp:3698613091eb60f435ce5e185a22b96bcc5c1e3e;anchor=swh:1:rev:55a5c1eee87b348f44a0980009f199b2b4e071ea)
 [![License](https://img.shields.io/badge/License-MIT-informational?style=flat-square)](#license)
 
 **Author:** Nguyen Nhat Nam ([ORCID: 0009-0006-8216-0594](https://orcid.org/0009-0006-8216-0594)) — Independent Systems & Formal Verification Researcher; FinTech Undergraduate, Nha Trang University, Khanh Hoa, Vietnam.
@@ -1132,7 +1132,7 @@ Every commit and pull request is verified via GitHub Actions (`.github/workflows
 Formal derivations, the 463-declaration Lean 4 axiom manifest, adversarial falsification audits, and architectural specifications are documented in [`docs/WHITEPAPER.md`](docs/WHITEPAPER.md), [`docs/AXIOM_MANIFEST.md`](docs/AXIOM_MANIFEST.md), [`docs/FALSIFICATION_LOG.md`](docs/FALSIFICATION_LOG.md), and [`CITATION.cff`](CITATION.cff):
 
 ```text
-Nguyen, N. N. (2026). garry-ultimate-oss: Pure-Rust O(1) Interval SMT Kernel and Dual-Domain Lean 4 / Mathlib4 Formalization of the 3D Incompressible Navier-Stokes Equations on T^3 and R^3 (Version 4.0.0) [Computer software]. Zenodo Concept DOI: https://doi.org/10.5281/zenodo.24252962 (v3.0.0 DOI: https://doi.org/10.5281/zenodo.24344944; v2.0.0 DOI: https://doi.org/10.5281/zenodo.24311836; SWHID: swh:1:dir:4ee205fa955cb5c4032e28d0786d6c50baff730f)
+Nguyen, N. N. (2026). garry-ultimate-oss: Pure-Rust O(1) Interval SMT Kernel and Dual-Domain Lean 4 / Mathlib4 Formalization of the 3D Incompressible Navier-Stokes Equations on T^3 and R^3 (Version 4.0.0) [Computer software]. Zenodo Concept DOI: https://doi.org/10.5281/zenodo.24252962 (v3.0.0 DOI: https://doi.org/10.5281/zenodo.24344944; v2.0.0 DOI: https://doi.org/10.5281/zenodo.24311836; SWHID: swh:1:dir:7049b138801f45f234580b17041ea08ed910428d)
 
 Nguyen, N. N. (2026). A Pure-Rust O(1) Interval SMT Verifier and Dual-Domain Lean 4 / Mathlib4 Formalization of the 3D Incompressible Navier-Stokes Equations on T^3 and R^3 (Version 4.0.0) [Preprint]. Zenodo Concept DOI: https://doi.org/10.5281/zenodo.24267996 (v4.0.0 DOI: https://doi.org/10.5281/zenodo.24502746; v3.0.0 DOI: https://doi.org/10.5281/zenodo.24346364)
 ```
